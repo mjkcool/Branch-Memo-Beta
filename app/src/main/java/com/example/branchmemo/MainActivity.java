@@ -1,32 +1,52 @@
 package com.example.branchmemo;
 
+import android.annotation.SuppressLint;
+import android.icu.util.Calendar;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
+    TextView Date_top_1, Date_top_2, Date_bottom;
 
+    private static Handler mHandler ;
+
+    @SuppressLint("HandlerLeak")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
         Toolbar toolbar = findViewById(R.id.toolbar);
+
+
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);//기본 제목을 없애줍니다.
-        //actionBar.setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼
+        //actionBar.setDisplayHomeAsUpEnabled(true); //툴바의 뒤로가기 버튼
+
+
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -36,7 +56,48 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+
+
+        mHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                Calendar cal = Calendar.getInstance() ;
+                SimpleDateFormat ap = new SimpleDateFormat("a");
+                SimpleDateFormat time = new SimpleDateFormat("hh:mm");
+                SimpleDateFormat date = new SimpleDateFormat("yyyy/MM/dd");
+
+                Date_top_1 = (TextView) findViewById(R.id.a_view);
+                Date_top_2 = (TextView) findViewById(R.id.time_view);
+                Date_bottom = (TextView) findViewById(R.id.date_view);
+
+                Date_top_1.setText(ap.format(cal.getTime()));
+                Date_top_2.setText(time.format(cal.getTime()));
+                Date_bottom.setText(date.format(cal.getTime()));
+            }
+        };
+
+        class NewRunnable implements Runnable {
+            Calendar cal = Calendar.getInstance();
+
+            @Override
+            public void run() {
+                while (true) {
+                    mHandler.sendEmptyMessage(0) ;
+                    try {
+                        Thread.sleep(1000) ;
+                    } catch (Exception e) {
+                        e.printStackTrace() ;
+                    }
+                }
+            }
+        }
+
+        NewRunnable nr = new NewRunnable() ;
+        Thread t = new Thread(nr) ;
+        t.start() ;
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -47,9 +108,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -59,4 +117,5 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }

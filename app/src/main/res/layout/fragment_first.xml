@@ -5,38 +5,61 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EDEBE8"
+    android:backgroundTint="#EDEBE8"
     android:orientation="vertical"
     tools:context=".FirstFragment">
 
-    <TextView
-        android:id="@+id/textView"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="88dp"
-        android:text="Date and time." />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="25dp">
+
+        <LinearLayout
+            android:layout_width="181dp"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/a_view"
+                android:layout_width="41dp"
+                android:layout_height="65dp"
+                android:text="time" />
+
+            <TextView
+                android:id="@+id/time_view"
+                android:layout_width="145dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="TextView" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/date_view"
+            android:layout_width="181dp"
+            android:layout_height="29dp"
+            android:text="date" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="43dp"
-        android:layout_marginTop="20dp"
         android:orientation="horizontal"
+        android:paddingLeft="160dp"
         android:paddingRight="10dp">
-
-        <Space
-            android:layout_width="133dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="5dp"
-            android:layout_height="30dp"
+            android:layout_width="3dp"
+            android:layout_height="25dp"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:src="@drawable/clip" />
 
         <EditText
             android:id="@+id/editTextTextPersonName"
-            android:layout_width="139dp"
+            android:layout_width="111dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
@@ -48,7 +71,19 @@
             android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:backgroundTint="#D4CE91"
             android:text="Add" />
 
     </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
+
 </LinearLayout>
