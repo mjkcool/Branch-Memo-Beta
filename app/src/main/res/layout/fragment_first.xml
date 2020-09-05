@@ -17,28 +17,37 @@
 
         <LinearLayout
             android:layout_width="181dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/a_view"
-                android:layout_width="41dp"
-                android:layout_height="65dp"
-                android:text="time" />
+                android:layout_width="47dp"
+                android:layout_height="match_parent"
+                android:fontFamily="sans-serif-light"
+                android:gravity="bottom|right"
+                android:text="ap"
+                android:textSize="25sp" />
 
             <TextView
                 android:id="@+id/time_view"
-                android:layout_width="145dp"
-                android:layout_height="match_parent"
+                android:layout_width="115dp"
+                android:layout_height="60dp"
                 android:layout_weight="1"
-                android:text="TextView" />
+                android:fontFamily="sans-serif-light"
+                android:gravity="left"
+                android:text="00:00"
+                android:textSize="50sp" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/date_view"
             android:layout_width="181dp"
-            android:layout_height="29dp"
-            android:text="date" />
+            android:layout_height="match_parent"
+            android:fontFamily="sans-serif-thin"
+            android:gravity="bottom|center"
+            android:text="0000/00/00"
+            android:textSize="30sp" />
 
     </LinearLayout>
 
@@ -63,8 +72,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Name" />
+            android:hint="Note code"
+            android:inputType="textPersonName" />
 
         <Button
             android:id="@+id/button"
@@ -78,7 +87,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
