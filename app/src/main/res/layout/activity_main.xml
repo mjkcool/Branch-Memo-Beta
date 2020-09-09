@@ -34,7 +34,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="675dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -96,14 +96,14 @@
                 android:backgroundTint="#6F675D"
                 android:gravity="center"
                 android:text="New"
-                android:textColor="#D4CE91"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
                 android:textColorHighlight="#FFFFFF"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/imageView"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:textAllCaps="false"
                 app:layout_constraintVertical_bias="0.0" />
 
             <ImageView
@@ -146,7 +146,7 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="473dp"
             android:layout_marginTop="10dp">
 
             <LinearLayout
