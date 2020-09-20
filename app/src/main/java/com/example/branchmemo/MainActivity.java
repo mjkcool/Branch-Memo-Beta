@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void handleMessage(Message msg) {
                 Calendar cal = Calendar.getInstance() ;
-                SimpleDateFormat ap = new SimpleDateFormat("a");
+                SimpleDateFormat ap = new SimpleDateFormat("a", Locale.ENGLISH);
                 SimpleDateFormat time = new SimpleDateFormat("hh:mm");
                 SimpleDateFormat date = new SimpleDateFormat("yyyy/MM/dd");
                 Date_top_1.setText(ap.format(cal.getTime()));
