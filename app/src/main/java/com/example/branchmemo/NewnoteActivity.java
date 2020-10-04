@@ -20,7 +20,6 @@ public class NewnoteActivity extends AppCompatActivity {
         toolbar2 = (Toolbar) findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar2);
         actionBar = getSupportActionBar();
-        actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);//기본 제목을 없애줍니다.
         actionBar.setDisplayHomeAsUpEnabled(true); //툴바의 뒤로가기 버튼
