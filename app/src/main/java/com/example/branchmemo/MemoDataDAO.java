@@ -2,14 +2,13 @@ package com.example.branchmemo;
 
 import java.util.Random;
 
-public class ServerdataDAO {
+public class MemoDataDAO {
 
-    public ServerdataDAO() {
+    public MemoDataDAO() {
+
     }
 
     public void CreateNew(String title, String content){
-        String query1 = "Create table ? ()";
-
 
     }
 
