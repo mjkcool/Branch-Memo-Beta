@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +19,12 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/imageView15"
+                android:id="@+id/branchtop"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+
+            <ImageView
+                android:id="@+id/branchbottom"
                 android:layout_width="match_parent"
                 android:layout_height="50dp" />
 
@@ -32,19 +37,20 @@
             android:paddingRight="5dp">
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/itemcard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="1dp"
                 android:layout_marginBottom="5dp"
-                app:cardBackgroundColor="#FFFFFF"
-                app:cardCornerRadius="5dp">
+                app:cardCornerRadius="0dp"
+                app:cardElevation="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#BDBDBD"
+                    android:background="@drawable/card_edge"
                     android:orientation="vertical"
                     android:paddingLeft="17dp"
                     android:paddingTop="15dp"
@@ -71,6 +77,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:text="0000/00/00 00:00" />
 
         </LinearLayout>

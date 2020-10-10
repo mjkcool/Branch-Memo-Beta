@@ -2,27 +2,18 @@ package com.example.branchmemo;
 
 import java.util.Random;
 
-public class MemoDataDAO {
+public class CodeCreater {
 
-    public MemoDataDAO() {
-
-    }
-
-    public void CreateNew(String title, String content){
-
-    }
-
-    private String getNewCode(){
-        String code;
-        code = "";
+    public String getNewCode(){
+        String code = "";
         Random random = new Random();
-        loop: while(true){
-            for(int i=0; i<0; i++){
+        loop:while(true){
+            for(int i=0; i<10; i++){
                 int tmp;
                 int flag = random.nextInt(3);
 
                 if(flag==0){
-                    code+=random.nextInt(10);
+                    code+=Integer.toString(random.nextInt(10));
                 }else if(flag==1){
                     tmp = random.nextInt(26) + 65;
                     code += Character.toString((char)tmp);
@@ -33,9 +24,8 @@ public class MemoDataDAO {
             }//end of for
             //Checking if exist of DB
             break loop;
-        }//end of loop
+        }//end of while
         return code;
     }//end of getNewCode
 
-    
 }
