@@ -4,23 +4,18 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.icu.util.Calendar;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
-import androidx.room.Room;
-
-import android.os.Handler;
-import android.os.Message;
-import android.view.View;
-
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
-import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
@@ -39,8 +34,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //Database
-        memoDatabase = Room.databaseBuilder(getApplicationContext(), MemoDatabase.class, "memodb").allowMainThreadQueries().build();
-        memoListDatabase = Room.databaseBuilder(getApplicationContext(), MemoListDatabase.class, "memolistdb").allowMainThreadQueries().build();
+//        memoDatabase = Room.databaseBuilder(getApplicationContext(), MemoDatabase.class, "memo-db").allowMainThreadQueries().build();
+//        memoListDatabase = Room.databaseBuilder(getApplicationContext(), MemoListDatabase.class, "memolist-db").allowMainThreadQueries().build();
+        memoDatabase = MemoDatabase.getAppDatabase(getApplicationContext());
+        memoListDatabase = MemoListDatabase.getAppDatabase(getApplicationContext());
 
         //bar
         toolbar = findViewById(R.id.toolbar);
@@ -59,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                Calendar cal = Calendar.getInstance() ;
+                Calendar cal = Calendar.getInstance();
                 SimpleDateFormat ap = new SimpleDateFormat("a", Locale.ENGLISH);
                 SimpleDateFormat time = new SimpleDateFormat("hh:mm");
                 SimpleDateFormat date = new SimpleDateFormat("yyyy/MM/dd");
@@ -114,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }

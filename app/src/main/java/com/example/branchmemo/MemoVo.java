@@ -2,30 +2,28 @@ package com.example.branchmemo;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.Calendar;
 
 @Entity(tableName = "memo_data")
 public class MemoVo {
     @PrimaryKey(autoGenerate = true)
-    public int id;
-    public String code;
-    public String title;
-    public String contentbody;
-    public Timestamp dateval;
+    private int id;
+    private String code;
+    private String title;
+    private String contentbody;
+    @TypeConverters(DateConverters.class)
+    private Date dateval;
 
-    public MemoVo(String title, String content) {
-        this.code = (new CodeCreater()).getNewCode();
-        this.title = title;
-        this.contentbody = content;
-        setDateval();
-    }
-    public MemoVo(String code, String title, String content){
-        this.code = code;
-        this.title = title;
-        this.contentbody = content;
-        setDateval();
+    public MemoVo() { }
+
+    public MemoVo(String code, String title, String content, Date date){
+        setCode(code);
+        setTitle(title);
+        setContentbody(content);
+        setDateval(date);
     }
 
     public int getId() {
@@ -39,6 +37,8 @@ public class MemoVo {
     public String getCode() {
         return code;
     }
+
+    public void setCode(String code) { this.code = code; }
 
     public String getTitle() {
         return title;
@@ -56,12 +56,9 @@ public class MemoVo {
         this.contentbody = contentbody;
     }
 
-    public Timestamp getDateval() {
+    public Date getDateval() {
         return dateval;
     }
 
-    public void setDateval() {
-        Calendar cal = Calendar.getInstance();
-        this.dateval = new Timestamp(cal.getTimeInMillis());
-    }
+    public void setDateval(Date dateval) { this.dateval = dateval; }
 }
