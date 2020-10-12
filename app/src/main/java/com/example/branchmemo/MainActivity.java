@@ -8,6 +8,8 @@ import android.os.Bundle;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
+import androidx.room.Room;
 
 import android.os.Handler;
 import android.os.Message;
@@ -18,9 +20,13 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
+    public static MemoDatabase memoDatabase;
+    public static MemoListDatabase memoListDatabase;
+
     Toolbar toolbar;
     public static ActionBar actionBar;
     private static Handler mHandler ;
@@ -32,6 +38,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Database
+        memoDatabase = Room.databaseBuilder(getApplicationContext(), MemoDatabase.class, "memodb").allowMainThreadQueries().build();
+        memoListDatabase = Room.databaseBuilder(getApplicationContext(), MemoListDatabase.class, "memolistdb").allowMainThreadQueries().build();
+
+        //bar
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
@@ -40,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setDisplayShowTitleEnabled(false);//기본 제목을 없애줍니다.
         actionBar.setDisplayHomeAsUpEnabled(false); //툴바의 뒤로가기 버튼
 
+        //Clock
         Date_top_1 = findViewById(R.id.a_view);
         Date_top_2 = findViewById(R.id.time_view);
         Date_bottom = findViewById(R.id.date_view);
@@ -84,7 +96,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
+
+
+
+
+    }//end of onCreate
 
 
     @Override

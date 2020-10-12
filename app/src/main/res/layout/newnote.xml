@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E5E5E5"
     android:orientation="vertical"
     tools:context=".NewnoteActivity">
 
@@ -49,10 +48,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                app:cardBackgroundColor="#BDBDBD"
                 app:cardCornerRadius="5dp">
 
                 <LinearLayout
+                    android:background="@drawable/card_edge"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -69,7 +68,7 @@
                         android:ems="10"
                         android:hint="Title"
                         android:inputType="textPersonName"
-                        android:maxLength="15"
+                        android:maxLength="25"
                         android:textSize="17sp"
                         android:textStyle="bold" />
 
@@ -78,7 +77,7 @@
                         android:layout_height="10dp" />
 
                     <EditText
-                        android:id="@+id/editTextTextMultiLine"
+                        android:id="@+id/ContentView"
 
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -111,7 +110,7 @@
                             android:text="Save"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:textColor="#FFFFFF"
-                            android:textSize="17sp" />
+                            android:textSize="18sp" />
                     </LinearLayout>
 
                 </LinearLayout>

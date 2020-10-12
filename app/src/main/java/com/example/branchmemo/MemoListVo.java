@@ -10,10 +10,10 @@ import java.sql.Timestamp;
 @Entity(tableName = "memolist")
 public class MemoListVo {
     @PrimaryKey(autoGenerate = true)
-    public int id;
-    public String code;
-    public String title;
-    public Timestamp dateval;
+    private int id;
+    private String code;
+    private String title;
+    private Timestamp dateval;
 
     public MemoListVo(String code, String title, Timestamp date) {
         this.code = code;
