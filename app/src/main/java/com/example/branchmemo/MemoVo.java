@@ -5,7 +5,6 @@ import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
 import java.sql.Date;
-import java.util.Calendar;
 
 @Entity(tableName = "memo_data")
 public class MemoVo {

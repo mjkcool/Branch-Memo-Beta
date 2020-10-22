@@ -6,7 +6,7 @@ import androidx.room.TypeConverters;
 
 import java.sql.Date;
 
-@Entity(tableName = "memolist")
+@Entity(tableName = "memolist_data")
 public class MemoListVo {
     @PrimaryKey(autoGenerate = true)
     private int id;

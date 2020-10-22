@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.icu.util.Calendar;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -50,36 +52,37 @@ public class NewnoteActivity extends AppCompatActivity {
 
                         //content
                         content = contentTxt.getText().toString().replace("\n", " ");
-                        if(content==null || content.length()==0){ //검열
-                            Toast.makeText(getApplicationContext(), "Empty", Toast.LENGTH_LONG).show();
-                            return;
-                        }
                         //title
                         title = titleTxt.getText().toString();
-                        if(title==null || title.length() == 0){ //대체 여부 결정
-                            String temp_title = content.substring(0, 25);
-                            title = temp_title;
-                        }
-                        content = contentTxt.getText().toString();
-                        code = (new CodeCreater()).getNewCode();
+                        if (content == null || content.length() == 0) { //검열
 
-                        MemoVo memo = new MemoVo(code, title, content, date);
-                        MainActivity.memoDatabase.memeDao().insert(memo);
+                            //Toast.makeText(getApplicationContext(), "Empty", Toast.LENGTH_LONG).show();
+                        } else {
+                            if (title == null || title.length() == 0) { //대체 여부 결정
+                                String temp_title = content.substring(0, 25);
+                                title = temp_title;
+                            }
+                            content = contentTxt.getText().toString();
+                            code = (new CodeCreater()).getNewCode();
 
-                        MemoListVo memolist = new MemoListVo(memo.getCode(), title, memo.getDateval());
-                        MainActivity.memoListDatabase.memoListDao().insert(memolist);
-                    }
-                });
+                            MemoVo memo = new MemoVo(code, title, content, date);
+                            MainActivity.memoDatabase.memeDao().insert(memo);
 
-                Toast.makeText(getApplicationContext(), "Saved!", Toast.LENGTH_LONG).show();
+                            MemoListVo memolist = new MemoListVo(memo.getCode(), title, memo.getDateval());
+                            MainActivity.memoListDatabase.memoListDao().insert(memolist);
 
-                titleTxt.setText("");
-                contentTxt.setText("");
+                            //Toast.makeText(getApplicationContext(), "Saved!", Toast.LENGTH_LONG).show();
 
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
-            }
-        });
-    }
+                            titleTxt.setText(null);
+                            contentTxt.setText(null);
+
+                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        }//end of if
+                    }//end of run
+                });//end of execute
+            }//end of onClick
+        }); //end of onClickListener
+    }//end of onCreate
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

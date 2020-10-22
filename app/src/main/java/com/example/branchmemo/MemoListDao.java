@@ -11,7 +11,7 @@ import java.util.List;
 
 @Dao
 public interface MemoListDao {
-    @Query("SELECT * FROM memolist")
+    @Query("SELECT * FROM memolist_data")
     LiveData<List<MemoListVo>> getData();
 
     @Insert
@@ -23,6 +23,7 @@ public interface MemoListDao {
     @Delete
     void delete(MemoListVo memolist);
 
-    @Query("DELETE FROM memolist")
+    @Query("DELETE FROM memolist_data")
+
     void deleteAll();
 }

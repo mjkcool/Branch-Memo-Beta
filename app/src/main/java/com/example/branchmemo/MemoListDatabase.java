@@ -14,7 +14,7 @@ public abstract class MemoListDatabase extends RoomDatabase {
 
     public abstract MemoListDao memoListDao();
 
-    public static MemoListDatabase getAppDatabase(Context context){
+    public static synchronized MemoListDatabase getAppDatabase(Context context){
         if(INSTANCE == null){
             INSTANCE = Room.databaseBuilder(context, MemoListDatabase.class, "memolist-db")
                     .build();

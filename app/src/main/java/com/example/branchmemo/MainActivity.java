@@ -3,6 +3,7 @@ package com.example.branchmemo;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.icu.util.Calendar;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,8 +15,11 @@ import android.widget.TextView;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     public static ActionBar actionBar;
     private static Handler mHandler ;
     TextView Date_top_1, Date_top_2, Date_bottom;
+    private RecyclerView rv;
 
     @SuppressLint("HandlerLeak")
     @Override
@@ -85,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
         Thread t = new Thread(nr) ;
         t.start() ;
 
-
         findViewById(R.id.newBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,10 +98,33 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+//        RoomExplorer.show(getApplicationContext(), MemoListDatabase.class, "memolist");
+//        RoomExplorer.show(getApplicationContext(), MemoDatabase.class, "memolist");
 
-
-
+        rv = findViewById(R.id.MemoListRecyclerView);
+        rv.setHasFixedSize(true);
+        rv.setLayoutManager(new LinearLayoutManager(this));
+        getData();
     }//end of onCreate
+
+    private void getData() {
+        class GetData extends AsyncTask<Void, Void, List<MemoListVo>> {
+            @Override
+            protected List<MemoListVo> doInBackground(Void... voids) {
+                List<MemoListVo> memoList_lists = (List<MemoListVo>) memoListDatabase.memoListDao().getData();
+                return memoList_lists;
+            }
+
+            @Override
+            protected void onPostExecute(List<MemoListVo> memoListVo) {
+                MemoListAdapter adapter = new MemoListAdapter(memoListVo);
+                rv.setAdapter(adapter);
+                super.onPostExecute(memoListVo);
+            }
+        }
+        GetData gd = new GetData();
+        gd.execute();
+    }
 
 
     @Override

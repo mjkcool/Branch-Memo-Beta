@@ -14,7 +14,7 @@ public abstract class MemoDatabase extends RoomDatabase {
 
     public abstract MemoDao memeDao();
 
-    public static MemoDatabase getAppDatabase(Context context){
+    public static synchronized MemoDatabase getAppDatabase(Context context){
         if(INSTANCE == null){
             INSTANCE = Room.databaseBuilder(context, MemoDatabase.class, "Memo-db")
                     .build();
