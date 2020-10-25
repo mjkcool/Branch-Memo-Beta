@@ -5,18 +5,22 @@ import android.content.Intent;
 import android.icu.util.Calendar;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Debug;
 import android.os.Handler;
 import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.wajahatkarim3.roomexplorer.RoomExplorer;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -31,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
     private static Handler mHandler ;
     TextView Date_top_1, Date_top_2, Date_bottom;
     private RecyclerView rv;
+
+
 
     @SuppressLint("HandlerLeak")
     @Override
@@ -98,20 +104,29 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        RoomExplorer.show(getApplicationContext(), MemoListDatabase.class, "memolist");
-//        RoomExplorer.show(getApplicationContext(), MemoDatabase.class, "memolist");
+        //RoomExplorer.show(getApplicationContext(), MemoListDatabase.class, "memolist_data");
+        //RoomExplorer.show(getApplicationContext(), MemoDatabase.class, "memo_data");
 
         rv = findViewById(R.id.MemoListRecyclerView);
         rv.setHasFixedSize(true);
         rv.setLayoutManager(new LinearLayoutManager(this));
         getData();
+
+
+
     }//end of onCreate
+
+
+    public static void deleteMemo(int pos) {
+        
+    }
 
     private void getData() {
         class GetData extends AsyncTask<Void, Void, List<MemoListVo>> {
             @Override
             protected List<MemoListVo> doInBackground(Void... voids) {
-                List<MemoListVo> memoList_lists = (List<MemoListVo>) memoListDatabase.memoListDao().getData();
+                List<MemoListVo> memoList_lists
+                     = (List<MemoListVo>) memoListDatabase.memoListDao().getData();
                 return memoList_lists;
             }
 

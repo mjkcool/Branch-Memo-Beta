@@ -12,7 +12,7 @@ import java.util.List;
 @Dao
 public interface MemoDao {
     @Query("SELECT * FROM memo_data")
-    LiveData<List<MemoVo>> getData();
+    List<MemoVo> getData();
 
     @Insert
     void insert(MemoVo memo);

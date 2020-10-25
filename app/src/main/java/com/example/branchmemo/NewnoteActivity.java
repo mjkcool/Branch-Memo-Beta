@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -55,11 +56,21 @@ public class NewnoteActivity extends AppCompatActivity {
                         //title
                         title = titleTxt.getText().toString();
                         if (content == null || content.length() == 0) { //검열
-
-                            //Toast.makeText(getApplicationContext(), "Empty", Toast.LENGTH_LONG).show();
+                            Looper.prepare();
+                            Handler mHandler = new Handler() {
+                                public void handleMessage(Message msg) {
+                                    Toast.makeText(NewnoteActivity.this, "Empty", Toast.LENGTH_SHORT).show();
+                                }
+                            };
+                            Looper.loop();
                         } else {
                             if (title == null || title.length() == 0) { //대체 여부 결정
-                                String temp_title = content.substring(0, 25);
+                                String temp_title;
+                                if (content.length()>25) {
+                                    temp_title = content.substring(25);
+                                }else{
+                                    temp_title = content;
+                                }
                                 title = temp_title;
                             }
                             content = contentTxt.getText().toString();
@@ -71,7 +82,13 @@ public class NewnoteActivity extends AppCompatActivity {
                             MemoListVo memolist = new MemoListVo(memo.getCode(), title, memo.getDateval());
                             MainActivity.memoListDatabase.memoListDao().insert(memolist);
 
-                            //Toast.makeText(getApplicationContext(), "Saved!", Toast.LENGTH_LONG).show();
+                            Looper.prepare();
+                            Handler mHandler = new Handler() {
+                                public void handleMessage(Message msg) {
+                                    Toast.makeText(NewnoteActivity.this, "Saved!", Toast.LENGTH_SHORT).show();
+                                }
+                            };
+                            Looper.loop();
 
                             titleTxt.setText(null);
                             contentTxt.setText(null);

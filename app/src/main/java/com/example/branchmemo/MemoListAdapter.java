@@ -1,9 +1,11 @@
 package com.example.branchmemo;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,7 +22,7 @@ public class MemoListAdapter extends RecyclerView.Adapter<MemoListAdapter.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recycler, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.listitem_recycler, parent, false);
         return new ViewHolder(view);
     }
 
@@ -39,10 +41,19 @@ public class MemoListAdapter extends RecyclerView.Adapter<MemoListAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView title, date;
-        public ViewHolder(@NonNull View itemView){
+        public ViewHolder(@NonNull final View itemView){
             super(itemView);
-            title = itemView.findViewById(R.id.title);
-            date = itemView.findViewById(R.id.date);
+            title = itemView.findViewById(R.id.listtitle);
+            date = itemView.findViewById(R.id.listdate);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int pos = getAdapterPosition();
+                    if(pos != RecyclerView.NO_POSITION){
+                        //Toast.makeText("Saved!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         }
     }
 }
