@@ -56,13 +56,9 @@ public class NewnoteActivity extends AppCompatActivity {
                         //title
                         title = titleTxt.getText().toString();
                         if (content == null || content.length() == 0) { //검열
-                            /*Looper.prepare();
-                            Handler mHandler = new Handler() {
-                                public void handleMessage(Message msg) {
-                                    Toast.makeText(NewnoteActivity.this, "Empty", Toast.LENGTH_SHORT).show();
-                                }
-                            };
-                            Looper.loop();*/
+                            Looper.prepare();
+                            Toast.makeText(getApplicationContext(), "Empty", Toast.LENGTH_SHORT).show();
+                            Looper.loop();
                         } else {
                             if (title == null || title.length() == 0) { //대체 여부 결정
                                 String temp_title;
@@ -81,21 +77,12 @@ public class NewnoteActivity extends AppCompatActivity {
 
                             MemoListVo memolist = new MemoListVo(memo.getCode(), title, memo.getDateval());
                             MainActivity.memoListDatabase.memoListDao().insert(memolist);
-
-                            /*
+/*
                             Looper.prepare();
-                            Handler mHandler = new Handler() {
-                                public void handleMessage(Message msg) {
-                                    Toast.makeText(NewnoteActivity.this, "Saved!", Toast.LENGTH_SHORT).show();
-                                }
-                            };
+                            Toast.makeText(NewnoteActivity.this, "Saved!", Toast.LENGTH_SHORT).show();
                             Looper.loop();
-                            */
-
-                            titleTxt.setText(null);
-                            contentTxt.setText(null);
-
-                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+*/
+                            startActivity(new Intent(NewnoteActivity.this, MainActivity.class));
                         }//end of if
                     }//end of run
                 });//end of execute

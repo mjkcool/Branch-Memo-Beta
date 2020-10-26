@@ -11,8 +11,9 @@ import java.util.List;
 
 @Dao
 public interface MemoDao {
-    @Query("SELECT * FROM memo_data")
-    List<MemoVo> getData();
+
+    @Query("SELECT * FROM memo_data WHERE code=:code")
+    List<MemoVo> getAll(String code);
 
     @Insert
     void insert(MemoVo memo);
@@ -25,5 +26,6 @@ public interface MemoDao {
 
     @Query("DELETE FROM memo_data")
     void deleteAll();
+
 
 }

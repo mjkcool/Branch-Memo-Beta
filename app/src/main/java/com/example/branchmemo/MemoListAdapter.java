@@ -1,6 +1,8 @@
 package com.example.branchmemo;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,8 +32,7 @@ public class MemoListAdapter extends RecyclerView.Adapter<MemoListAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int i) {
         MemoListVo md = memoList_lists.get(i);
         holder.title.setText(md.getTitle());
-        holder.date.setText(md.getDateval().toString());
-
+        holder.date.setText(MainActivity.date.format(md.getDateval())+" "+MainActivity.time24.format(md.getDateval()));
     }
 
     @Override
@@ -50,7 +51,9 @@ public class MemoListAdapter extends RecyclerView.Adapter<MemoListAdapter.ViewHo
                 public void onClick(View view) {
                     int pos = getAdapterPosition();
                     if(pos != RecyclerView.NO_POSITION){
-                        //Toast.makeText("Saved!", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(view.getContext(), Integer.toString(pos), Toast.LENGTH_SHORT).show();
+                        ((MainActivity)MainActivity.mContext).viewMemo(pos);
+
                     }
                 }
             });
