@@ -1,13 +1,10 @@
 package com.example.branchmemo;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Looper;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -46,15 +43,28 @@ public class MemoListAdapter extends RecyclerView.Adapter<MemoListAdapter.ViewHo
             super(itemView);
             title = itemView.findViewById(R.id.listtitle);
             date = itemView.findViewById(R.id.listdate);
-            itemView.setOnClickListener(new View.OnClickListener() {
+            itemView./*findViewById(R.id.listitem).*/setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int pos = getAdapterPosition();
-                    if(pos != RecyclerView.NO_POSITION){
-                        //Toast.makeText(view.getContext(), Integer.toString(pos), Toast.LENGTH_SHORT).show();
-                        ((MainActivity)MainActivity.mContext).viewMemo(pos);
-
+                    AsyncTask.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            int pos = getAdapterPosition();
+                            if(pos != RecyclerView.NO_POSITION) {
+                                List<MemoListVo> list = MainActivity.memoListDatabase.memoListDao().getData();
+                                String code = list.get(pos).getCode();
+                                ((MainActivity)MainActivity.mContext).viewMemo(code);
+                            }
+                        }
+                    });
+                itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View view) {
+                        //메모 삭제 리스트
+                        return true;
                     }
+                });
+
                 }
             });
         }

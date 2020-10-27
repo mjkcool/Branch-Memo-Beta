@@ -21,7 +21,7 @@ import android.widget.Toast;
 import java.sql.Date;
 
 public class NewnoteActivity extends AppCompatActivity {
-    Toolbar toolbar2;
+    Toolbar toolbar;
     public static ActionBar actionBar;
     EditText titleTxt, contentTxt;
     Button btn_toSave;
@@ -31,8 +31,8 @@ public class NewnoteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.newnote);
 
-        toolbar2 = findViewById(R.id.toolbar2);
-        setSupportActionBar(toolbar2);
+        toolbar = findViewById(R.id.toolbar2);
+        setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);//기본 제목

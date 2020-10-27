@@ -113,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
 
     }//end of onCreate
 
-
     private void getData() {
         class GetData extends AsyncTask<Void, Void, List<MemoListVo>> {
             @Override
@@ -134,12 +133,12 @@ public class MainActivity extends AppCompatActivity {
         gd.execute();
     }
 
-    public void viewMemo(int pos) {
+    public void viewMemo(String code) {
         //Toast.makeText(this, Integer.toString(pos), Toast.LENGTH_SHORT).show();
-        String code = memoListDatabase.memoListDao().getData().get(pos).getCode();
         Intent intent = new Intent(mContext, viewnoteActivity.class);
         intent.putExtra("code", code);
         startActivity(intent);
+
     }
 
     @Override
