@@ -10,7 +10,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -31,7 +33,6 @@ public class viewnoteActivity extends AppCompatActivity {
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);//기본 제목
         actionBar.setDisplayHomeAsUpEnabled(true); //툴바의 뒤로가기 버튼
-
 
         Intent memoIntent = getIntent();
         memoCode = memoIntent.getStringExtra("code");
@@ -66,10 +67,24 @@ public class viewnoteActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {//toolbar의 back키 눌렀을 때 동작
-            finish();
-            return true;
+        switch (item.getItemId()) {
+            case R.id.home:
+                finish();
+                return true;
+            case R.id.action_delete:
+                Toast.makeText(viewnoteActivity.this, "눌렸다!", Toast.LENGTH_LONG).show();
+                ((MainActivity)MainActivity.mContext).deleteMemo(memoCode);
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
 }

@@ -61,7 +61,8 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.ViewHolder> {
             itemView.findViewById(R.id.itemcard).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    
+                    //메모펼치기
+
                 }
             });
         }

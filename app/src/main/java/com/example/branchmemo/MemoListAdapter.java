@@ -46,25 +46,11 @@ public class MemoListAdapter extends RecyclerView.Adapter<MemoListAdapter.ViewHo
             itemView./*findViewById(R.id.listitem).*/setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    AsyncTask.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            int pos = getAdapterPosition();
-                            if(pos != RecyclerView.NO_POSITION) {
-                                List<MemoListVo> list = MainActivity.memoListDatabase.memoListDao().getData();
-                                String code = list.get(pos).getCode();
-                                ((MainActivity)MainActivity.mContext).viewMemo(code);
-                            }
-                        }
-                    });
-                itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View view) {
-                        //메모 삭제 리스트
-                        return true;
-                    }
-                });
 
+                    int pos = getAdapterPosition();
+                    if(pos != RecyclerView.NO_POSITION) {
+                        ((MainActivity)MainActivity.mContext).viewMemo(pos);
+                    }
                 }
             });
         }

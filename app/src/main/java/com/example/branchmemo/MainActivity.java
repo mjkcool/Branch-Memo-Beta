@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -53,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
         //bar
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        actionBar = getSupportActionBar();
         actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);//기본 제목을 없애줍니다.
@@ -133,30 +133,17 @@ public class MainActivity extends AppCompatActivity {
         gd.execute();
     }
 
-    public void viewMemo(String code) {
-        //Toast.makeText(this, Integer.toString(pos), Toast.LENGTH_SHORT).show();
+    public void viewMemo(int pos) {
+        //Toast.makeText(this, code, Toast.LENGTH_SHORT).show();
+        List<MemoListVo> list = memoListDatabase.memoListDao().getData();
+        String code = list.get(pos).getCode();
         Intent intent = new Intent(mContext, viewnoteActivity.class);
         intent.putExtra("code", code);
         startActivity(intent);
-
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+    public void deleteMemo(String memoCode) {
+        memoListDatabase.memoListDao().delete(memoCode);
+        memoDatabase.memeDao().delete(memoCode);
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
 }
