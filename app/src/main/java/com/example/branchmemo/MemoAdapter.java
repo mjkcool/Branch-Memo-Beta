@@ -37,7 +37,6 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.ViewHolder> {
         }else{//아니면
             if(i==0){ //처음이면
                 holder.branchtop.setImageResource(R.drawable.circle);
-
             }else{
                 holder.branchtop.setImageResource(R.drawable.middle);
                 holder.branchbttm.setImageResource(R.drawable.straight);

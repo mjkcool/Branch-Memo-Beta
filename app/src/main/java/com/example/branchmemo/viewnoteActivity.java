@@ -34,6 +34,7 @@ public class viewnoteActivity extends AppCompatActivity {
         actionBar.setDisplayShowTitleEnabled(false);//기본 제목
         actionBar.setDisplayHomeAsUpEnabled(true); //툴바의 뒤로가기 버튼
 
+
         Intent memoIntent = getIntent();
         memoCode = memoIntent.getStringExtra("code");
 
@@ -66,25 +67,25 @@ public class viewnoteActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.viewnote_menu, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.home:
                 finish();
                 return true;
             case R.id.action_delete:
-                Toast.makeText(viewnoteActivity.this, "눌렸다!", Toast.LENGTH_LONG).show();
-                ((MainActivity)MainActivity.mContext).deleteMemo(memoCode);
-                finish();
+                //((MainActivity) MainActivity.mContext).deleteMemo(memoCode);
+                Toast.makeText(this, "삭제!", Toast.LENGTH_SHORT).show();
+                //startActivity(new Intent(viewnoteActivity.this, MainActivity.class));
                 return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

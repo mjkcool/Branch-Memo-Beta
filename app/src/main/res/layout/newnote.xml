@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     android:orientation="vertical"
     tools:context=".NewnoteActivity">
 
@@ -11,20 +12,19 @@
         android:id="@+id/appBarLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:layout_height="50dp"
+            android:theme="@style/AppTheme">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/app_name"
-                android:textColor="#FFFFFF"
                 android:textColorHint="#FFFFFF"
                 android:textSize="20sp" />
         </androidx.appcompat.widget.Toolbar>

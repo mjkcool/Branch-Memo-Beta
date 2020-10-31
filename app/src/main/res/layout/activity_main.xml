@@ -15,20 +15,20 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#6F675D"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize">
+            android:layout_height="50dp">
 
             <TextView
+                android:id="@+id/appTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/app_name"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/colorPrimary"
                 android:textColorHint="#FFFFFF"
                 android:textSize="20sp" />
         </androidx.appcompat.widget.Toolbar>
@@ -37,15 +37,15 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="675dp"
-        android:background="#E5E5E5"
+        android:layout_height="match_parent"
+        android:background="@color/background"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="25dp">
+            android:padding="20dp">
 
             <LinearLayout
                 android:layout_width="181dp"
@@ -115,10 +115,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
-            android:scrollbarSize="4dp"
-            android:scrollbarStyle="insideInset"
-            android:scrollbars="vertical"
-            android:visibility="visible" />
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbars="vertical" />
 
 
     </LinearLayout>

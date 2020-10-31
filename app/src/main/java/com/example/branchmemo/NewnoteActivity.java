@@ -41,6 +41,7 @@ public class NewnoteActivity extends AppCompatActivity {
         titleTxt = findViewById(R.id.TitleView);
         contentTxt = findViewById(R.id.ContentView);
         btn_toSave = findViewById(R.id.saveBtn);
+
         btn_toSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,22 +74,24 @@ public class NewnoteActivity extends AppCompatActivity {
                             code = (new CodeCreater()).getNewCode();
 
                             MemoVo memo = new MemoVo(code, title, content, date);
-                            MainActivity.memoDatabase.memeDao().insert(memo);
-
                             MemoListVo memolist = new MemoListVo(memo.getCode(), title, memo.getDateval());
-                            MainActivity.memoListDatabase.memoListDao().insert(memolist);
-/*
-                            Looper.prepare();
-                            Toast.makeText(NewnoteActivity.this, "Saved!", Toast.LENGTH_SHORT).show();
-                            Looper.loop();
-*/
+
+                            insertData(memo, memolist);
+
                             startActivity(new Intent(NewnoteActivity.this, MainActivity.class));
                         }//end of if
                     }//end of run
                 });//end of execute
+
             }//end of onClick
         }); //end of onClickListener
+
     }//end of onCreate
+
+    private void insertData(MemoVo memo, MemoListVo memolist) {
+        MainActivity.memoDatabase.memeDao().insert(memo);
+        MainActivity.memoListDatabase.memoListDao().insert(memolist);
+    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
     static SimpleDateFormat time24 = new SimpleDateFormat("HH:mm");
     static SimpleDateFormat date = new SimpleDateFormat("yyyy/MM/dd");
 
-
     @SuppressLint("HandlerLeak")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         //bar
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        actionBar = getSupportActionBar();
         actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);//기본 제목을 없애줍니다.
@@ -133,17 +133,19 @@ public class MainActivity extends AppCompatActivity {
         gd.execute();
     }
 
-    public void viewMemo(int pos) {
-        //Toast.makeText(this, code, Toast.LENGTH_SHORT).show();
-        List<MemoListVo> list = memoListDatabase.memoListDao().getData();
-        String code = list.get(pos).getCode();
-        Intent intent = new Intent(mContext, viewnoteActivity.class);
-        intent.putExtra("code", code);
-        startActivity(intent);
+    public void viewMemo(final int pos) {
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                String code = memoListDatabase.memoListDao().getData().get(pos).getCode();
+                Intent intent = new Intent(mContext, viewnoteActivity.class);
+                intent.putExtra("code", code);
+                startActivity(intent);
+            }
+        });
     }
-
     public void deleteMemo(String memoCode) {
-        memoListDatabase.memoListDao().delete(memoCode);
-        memoDatabase.memeDao().delete(memoCode);
+//        memoListDatabase.memoListDao().delete(memoCode);
+//        memoDatabase.memeDao().delete(memoCode);
     }
 }
