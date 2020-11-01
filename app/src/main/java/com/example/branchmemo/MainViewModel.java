@@ -37,6 +37,4 @@ public class MainViewModel extends AndroidViewModel {
     public void deleteMemoList(String code){
         repository.deleteMemoList(code);
     }
-
-
 }

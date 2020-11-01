@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     public static Context mContext;
     public static MemoDatabase memoDatabase;
     public static MemoListDatabase memoListDatabase;
+    MainViewModel DBModel;
 
     Toolbar toolbar;
     public static ActionBar actionBar;
@@ -47,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mContext = this;
 
+        DBModel = new MainViewModel(getApplication());
         memoDatabase = MemoDatabase.getAppDatabase(getApplicationContext());
         memoListDatabase = MemoListDatabase.getAppDatabase(getApplicationContext());
 
@@ -109,16 +112,20 @@ public class MainActivity extends AppCompatActivity {
         mLayoutManager.setReverseLayout(true);
         mLayoutManager.setStackFromEnd(true);
         rv.setLayoutManager(mLayoutManager);
-        getData();
+        getMemoListData();
+
+        String TAG = "MainActivity";
+        Log.d(TAG, "시발: "+Integer.toString(DBModel.getMemoList().size()));
+
 
     }//end of onCreate
 
-    private void getData() {
+    private void getMemoListData() {
         class GetData extends AsyncTask<Void, Void, List<MemoListVo>> {
             @Override
             protected List<MemoListVo> doInBackground(Void... voids) {
                 List<MemoListVo> memoList_lists
-                     = (List<MemoListVo>) memoListDatabase.memoListDao().getData();
+                     = (List<MemoListVo>) memoListDatabase.memoListDao().getAll();
                 return memoList_lists;
             }
 
@@ -131,21 +138,29 @@ public class MainActivity extends AppCompatActivity {
         }
         GetData gd = new GetData();
         gd.execute();
+//        MemoListAdapter adapter = new MemoListAdapter(DBModel.getMemoList());
+//        rv.setAdapter(adapter);
     }
 
     public void viewMemo(final int pos) {
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                String code = memoListDatabase.memoListDao().getData().get(pos).getCode();
+                String code = memoListDatabase.memoListDao().getAll().get(pos).getCode();
                 Intent intent = new Intent(mContext, viewnoteActivity.class);
                 intent.putExtra("code", code);
                 startActivity(intent);
             }
         });
+//        String code = DBModel.getMemoList().get(pos).getCode();
+//        Intent intent = new Intent(mContext, viewnoteActivity.class);
+//        intent.putExtra("code", code);
+//        startActivity(intent);
     }
     public void deleteMemo(String memoCode) {
 //        memoListDatabase.memoListDao().delete(memoCode);
 //        memoDatabase.memeDao().delete(memoCode);
+        DBModel.deleteMemo(memoCode);
+        DBModel.deleteMemoList(memoCode);
     }
 }

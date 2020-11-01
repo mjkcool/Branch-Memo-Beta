@@ -82,7 +82,6 @@ public class NewnoteActivity extends AppCompatActivity {
                         }//end of if
                     }//end of run
                 });//end of execute
-
             }//end of onClick
         }); //end of onClickListener
 

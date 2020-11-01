@@ -3,6 +3,7 @@ package com.example.branchmemo;
 import android.app.Application;
 import android.os.AsyncTask;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DBRepository {
@@ -17,7 +18,7 @@ public class DBRepository {
         memoListDao = memoListDatabase.memoListDao();
     }
 
-    private List<MemoVo> MemoVoReturnVal = null;
+    private List<MemoVo> MemoVoReturnVal = new ArrayList<>();
     private void setMemoVoReturnVal(List<MemoVo> memoVoReturnVal) {
         MemoVoReturnVal = memoVoReturnVal;
     }
@@ -25,7 +26,7 @@ public class DBRepository {
         return MemoVoReturnVal;
     }
 
-    private List<MemoListVo> MemoListVoReturnVal = null;
+    private List<MemoListVo> MemoListVoReturnVal = new ArrayList<>();
     private void setMemoListVoReturnVal(List<MemoListVo> memoListVoReturnVal) {
         MemoListVoReturnVal = memoListVoReturnVal;
     }
@@ -43,13 +44,14 @@ public class DBRepository {
         task.execute(code);
     }
 
+    //사용자
     public List<MemoVo> getAllMemo(String code){
         GetAllMemoAsyncTask task = new GetAllMemoAsyncTask(memoDao);
         task.repository = this;
         task.execute(code);
         return getMemoVoReturnVal();
     }
-
+    //사용자
     public List<MemoListVo> getAllMemoList(){
         GetAllMemoListAsyncTask task = new GetAllMemoListAsyncTask(memoListDao);
         task.repository = this;

@@ -18,6 +18,7 @@ public class MemoListAdapter extends RecyclerView.Adapter<MemoListAdapter.ViewHo
 
     public MemoListAdapter(List<MemoListVo> memoList_lists) {
         this.memoList_lists = memoList_lists;
+
     }
 
     @NonNull
