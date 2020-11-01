@@ -29,6 +29,7 @@ public interface MemoListDao {
     @Query("select EXISTS (select * from memolist_data where code=:code_) as success")
     int selectCode(String code_);
 
+
     @Query("DELETE FROM memolist_data WHERE code=:code_")
     void delete(String code_);
 }

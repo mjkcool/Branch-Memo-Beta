@@ -8,7 +8,9 @@ import androidx.lifecycle.AndroidViewModel;
 import java.util.List;
 
 public class MainViewModel extends AndroidViewModel {
+
     private DBRepository repository;
+
     public MainViewModel(@NonNull Application application) {
         super(application);
         repository = new DBRepository(application);
@@ -34,7 +36,12 @@ public class MainViewModel extends AndroidViewModel {
         return repository.getAllMemoList();
     }
 
-    public void deleteMemoList(String code){
-        repository.deleteMemoList(code);
-    }
+    public void deleteMemoList(String code) { repository.deleteMemoList(code); }
+
+    public int selectCode(String code) { return repository.selectCode(code); }
+
+    public MemoDao getMemoDao(){ return repository.getMemoDao(); }
+    public MemoListDao getMemoListDao(){ return repository.getMemoListDao(); }
+
+    public String getPosCode(int pos){ return repository.getCode(pos); }
 }

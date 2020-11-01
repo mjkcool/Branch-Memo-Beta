@@ -23,7 +23,7 @@ public class CodeCreater {
                 }
             }//end of for
             //Checking if exist of DB
-            if(MainActivity.memoListDatabase.memoListDao().selectCode(code) == 0)
+            if(MainActivity.DBModel.selectCode(code) == 0)
                 break loop;
         }//end of while
         return code;

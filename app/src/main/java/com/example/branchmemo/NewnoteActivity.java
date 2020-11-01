@@ -45,9 +45,9 @@ public class NewnoteActivity extends AppCompatActivity {
         btn_toSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AsyncTask.execute(new Runnable() {
-                    @Override
-                    public void run() {
+//                AsyncTask.execute(new Runnable() {
+//                    @Override
+//                    public void run() {
                         String code, title, content;
                         Calendar cal = Calendar.getInstance();
                         Date date = new Date(System.currentTimeMillis());
@@ -57,9 +57,7 @@ public class NewnoteActivity extends AppCompatActivity {
                         //title
                         title = titleTxt.getText().toString();
                         if (content == null || content.length() == 0) { //검열
-                            Looper.prepare();
                             Toast.makeText(getApplicationContext(), "Empty", Toast.LENGTH_SHORT).show();
-                            Looper.loop();
                         } else {
                             if (title == null || title.length() == 0) { //대체 여부 결정
                                 String temp_title;
@@ -80,16 +78,16 @@ public class NewnoteActivity extends AppCompatActivity {
 
                             startActivity(new Intent(NewnoteActivity.this, MainActivity.class));
                         }//end of if
-                    }//end of run
-                });//end of execute
+//                    }//end of run
+//                });//end of execute
             }//end of onClick
         }); //end of onClickListener
 
     }//end of onCreate
 
     private void insertData(MemoVo memo, MemoListVo memolist) {
-        MainActivity.memoDatabase.memeDao().insert(memo);
-        MainActivity.memoListDatabase.memoListDao().insert(memolist);
+        MainActivity.DBModel.insertMemo(memo);
+        MainActivity.DBModel.insertMemoList(memolist);
     }
 
     @Override

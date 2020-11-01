@@ -50,8 +50,7 @@ public class viewnoteActivity extends AppCompatActivity {
         class GetData extends AsyncTask<Void, Void, List<MemoVo>> {
             @Override
             protected List<MemoVo> doInBackground(Void... voids) {
-                List<MemoVo> memo_lists
-                        = (List<MemoVo>) MainActivity.memoDatabase.memeDao().getAll(memoCode);
+                List<MemoVo> memo_lists = MainActivity.DBModel.getMemoDao().getAll(memoCode);
                 return memo_lists;
             }
 
@@ -64,6 +63,8 @@ public class viewnoteActivity extends AppCompatActivity {
         }
         GetData gd = new GetData();
         gd.execute();
+//        MemoAdapter adapter = new MemoAdapter(MainActivity.DBModel.getMemo(memoCode));
+//        rv.setAdapter(adapter);
     }
 
     @Override
@@ -75,16 +76,21 @@ public class viewnoteActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.home:
-                finish();
-                return true;
-            case R.id.action_delete:
-                //((MainActivity) MainActivity.mContext).deleteMemo(memoCode);
-                Toast.makeText(this, "삭제!", Toast.LENGTH_SHORT).show();
-                //startActivity(new Intent(viewnoteActivity.this, MainActivity.class));
-                return true;
-
+//        switch (item.getItemId()) {
+//            case R.id.home:
+//                finish();
+//                return true;
+//            case R.id.action_delete:
+//                //((MainActivity) MainActivity.mContext).deleteMemo(memoCode);
+//                Toast.makeText(this, "삭제!", Toast.LENGTH_SHORT).show();
+//                //startActivity(new Intent(viewnoteActivity.this, MainActivity.class));
+//                return true;
+//
+//        }
+//        return super.onOptionsItemSelected(item);
+        if (item.getItemId() == android.R.id.home) {//toolbar의 back키 눌렀을 때 동작
+            finish();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

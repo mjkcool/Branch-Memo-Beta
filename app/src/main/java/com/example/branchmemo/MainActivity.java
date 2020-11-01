@@ -27,9 +27,9 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     public static Context mContext;
-    public static MemoDatabase memoDatabase;
-    public static MemoListDatabase memoListDatabase;
-    MainViewModel DBModel;
+//    public static MemoDatabase memoDatabase;
+//    public static MemoListDatabase memoListDatabase;
+    public static MainViewModel DBModel;
 
     Toolbar toolbar;
     public static ActionBar actionBar;
@@ -50,8 +50,8 @@ public class MainActivity extends AppCompatActivity {
         mContext = this;
 
         DBModel = new MainViewModel(getApplication());
-        memoDatabase = MemoDatabase.getAppDatabase(getApplicationContext());
-        memoListDatabase = MemoListDatabase.getAppDatabase(getApplicationContext());
+//        memoDatabase = MemoDatabase.getAppDatabase(getApplicationContext());
+//        memoListDatabase = MemoListDatabase.getAppDatabase(getApplicationContext());
 
         //bar
         toolbar = findViewById(R.id.toolbar);
@@ -112,23 +112,18 @@ public class MainActivity extends AppCompatActivity {
         mLayoutManager.setReverseLayout(true);
         mLayoutManager.setStackFromEnd(true);
         rv.setLayoutManager(mLayoutManager);
-        getMemoListData();
-
-        String TAG = "MainActivity";
-        Log.d(TAG, "시발: "+Integer.toString(DBModel.getMemoList().size()));
+        getData();
 
 
     }//end of onCreate
 
-    private void getMemoListData() {
+    private void getData() {
         class GetData extends AsyncTask<Void, Void, List<MemoListVo>> {
             @Override
             protected List<MemoListVo> doInBackground(Void... voids) {
-                List<MemoListVo> memoList_lists
-                     = (List<MemoListVo>) memoListDatabase.memoListDao().getAll();
+                List<MemoListVo> memoList_lists = DBModel.getMemoListDao().getAll();
                 return memoList_lists;
             }
-
             @Override
             protected void onPostExecute(List<MemoListVo> memoListVo) {
                 MemoListAdapter adapter = new MemoListAdapter(memoListVo);
@@ -138,24 +133,26 @@ public class MainActivity extends AppCompatActivity {
         }
         GetData gd = new GetData();
         gd.execute();
+//        Log.d("MainActivity", "메모 개수 정국: "+Integer.toString(DBModel.getMemoList().size()));
 //        MemoListAdapter adapter = new MemoListAdapter(DBModel.getMemoList());
 //        rv.setAdapter(adapter);
     }
 
-    public void viewMemo(final int pos) {
-        AsyncTask.execute(new Runnable() {
+    public void viewMemo(int pos) {
+        Log.d("뷰메모 pos", Integer.toString(pos));
+        /*AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                String code = memoListDatabase.memoListDao().getAll().get(pos).getCode();
+                String code = DBModel.getMemoListDao().getAll().get(pos).getCode();
                 Intent intent = new Intent(mContext, viewnoteActivity.class);
                 intent.putExtra("code", code);
                 startActivity(intent);
             }
-        });
-//        String code = DBModel.getMemoList().get(pos).getCode();
-//        Intent intent = new Intent(mContext, viewnoteActivity.class);
-//        intent.putExtra("code", code);
-//        startActivity(intent);
+        });*/
+        String code = DBModel.getPosCode(pos);
+        Intent intent = new Intent(mContext, viewnoteActivity.class);
+        intent.putExtra("code", code);
+        startActivity(intent);
     }
     public void deleteMemo(String memoCode) {
 //        memoListDatabase.memoListDao().delete(memoCode);
