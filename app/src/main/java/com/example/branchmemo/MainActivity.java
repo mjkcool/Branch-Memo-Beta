@@ -50,8 +50,6 @@ public class MainActivity extends AppCompatActivity {
         mContext = this;
 
         DBModel = new MainViewModel(getApplication());
-//        memoDatabase = MemoDatabase.getAppDatabase(getApplicationContext());
-//        memoListDatabase = MemoListDatabase.getAppDatabase(getApplicationContext());
 
         //bar
         toolbar = findViewById(R.id.toolbar);
@@ -103,9 +101,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //RoomExplorer.show(getApplicationContext(), MemoListDatabase.class, "memolist_data");
-        //RoomExplorer.show(getApplicationContext(), MemoDatabase.class, "memo_data");
-
         rv = findViewById(R.id.MemoListRecyclerView);
         rv.setHasFixedSize(true);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -133,23 +128,13 @@ public class MainActivity extends AppCompatActivity {
         }
         GetData gd = new GetData();
         gd.execute();
-//        Log.d("MainActivity", "메모 개수 정국: "+Integer.toString(DBModel.getMemoList().size()));
-//        MemoListAdapter adapter = new MemoListAdapter(DBModel.getMemoList());
-//        rv.setAdapter(adapter);
     }
 
     public void viewMemo(int pos) {
-        Log.d("(0) mj 뷰메모 시작! pos", Integer.toString(pos));
-        String code = DBModel.getPosCode(pos);
-        Log.d("(4) mj getPosCode 받은 후 ", ""+code);
-        Intent intent = new Intent(mContext, viewnoteActivity.class);
-        intent.putExtra("code", code);
-        startActivity(intent);
+        DBModel.viewMemo(pos);
     }
 
     public void deleteMemo(String memoCode) {
-//        memoListDatabase.memoListDao().delete(memoCode);
-//        memoDatabase.memeDao().delete(memoCode);
         DBModel.deleteMemo(memoCode);
         DBModel.deleteMemoList(memoCode);
     }

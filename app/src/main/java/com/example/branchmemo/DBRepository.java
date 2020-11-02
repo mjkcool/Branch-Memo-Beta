@@ -1,6 +1,7 @@
 package com.example.branchmemo;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -8,11 +9,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DBRepository {
-
+    //**[IMPORTANT] Instance of DAO
     private MemoDao memoDao;
     private MemoListDao memoListDao;
+    //DAO Getter
+    public MemoDao getMemoDao() {
+        return memoDao;
+    }
+    public MemoListDao getMemoListDao() {
+        return memoListDao;
+    }
 
-
+    //Constructor
     public DBRepository(Context context) {
         MemoDatabase memoDatabase = MemoDatabase.getAppDatabase(context);
         MemoListDatabase memoListDatabase = MemoListDatabase.getAppDatabase(context);
@@ -20,13 +28,7 @@ public class DBRepository {
         memoListDao = memoListDatabase.memoListDao();
     }
 
-    public MemoDao getMemoDao() {
-        return memoDao;
-    }
-
-    public MemoListDao getMemoListDao() {
-        return memoListDao;
-    }
+    //----------------------------------------------------------------------------------------------
 
     //이 리스트객체들을 제대로 초기화하는 법을 알아내야 함.
     private List<MemoVo> MemoVoReturnVal = new ArrayList<>();
@@ -39,7 +41,6 @@ public class DBRepository {
         return MemoVoReturnVal;
     }
 
-
     private void setMemoListVoReturnVal(List<MemoListVo> memoListVoReturnVal) {
         MemoListVoReturnVal = memoListVoReturnVal;
     }
@@ -47,44 +48,27 @@ public class DBRepository {
         return MemoListVoReturnVal;
     }
 
-    private String Code;
-    public void setCode(String code){
-        Code = code;
-    }
-    private String getCode() {
-        return Code;
-    }
 
-    public String getPosCode(int pos){
-        GetCodeAsyncTask task = new GetCodeAsyncTask(memoListDao);
-        task.repository = this;
-        task.execute(pos);
-        Log.d("(3)mj return 직전", " "+getCode());
-        return getCode();
-    }
-
+    //GetCodeExistAsyncTask
     private int codeCount;
     private void setCodeCount(int codeCount) { this.codeCount = codeCount; }
     private int getCodeCount() { return codeCount; }
 
-    public void insertMemo(MemoVo memo){
-        InsertMemoAsyncTask task = new InsertMemoAsyncTask(memoDao);
-        task.execute(memo);
+    //----------------------------------------------------------------------------------------------
+    //For User Methods
+
+    public void viewMemo(int pos){
+        ViewMemoAsyncTask task = new ViewMemoAsyncTask(memoListDao);
+        task.execute(pos);
     }
 
-    public void deleteMemo(String code){
-        DeleteMemoAsyncTask task = new DeleteMemoAsyncTask(memoDao);
-        task.execute(code);
-    }
-
-    //
     public List<MemoVo> getAllMemo(String code){
         GetAllMemoAsyncTask task = new GetAllMemoAsyncTask(memoDao);
         task.repository = this;
         task.execute(code);
         return getMemoVoReturnVal();
     }
-    //
+
     public List<MemoListVo> getAllMemoList(){
         GetAllMemoListAsyncTask task = new GetAllMemoListAsyncTask(memoListDao);
         task.repository = this;
@@ -102,12 +86,26 @@ public class DBRepository {
         task.execute(code);
     }
 
+    public void insertMemo(MemoVo memo){
+        InsertMemoAsyncTask task = new InsertMemoAsyncTask(memoDao);
+        task.execute(memo);
+    }
+
+    public void deleteMemo(String code){
+        DeleteMemoAsyncTask task = new DeleteMemoAsyncTask(memoDao);
+        task.execute(code);
+    }
+
     public int selectCode(String code){
         GetCodeExistAsyncTask task = new GetCodeExistAsyncTask(memoListDao);
         task.repository = this;
         task.execute(code);
         return getCodeCount();
     }
+
+
+    //----------------------------------------------------------------------------------------------
+    //AsyncTask Classes
 
     private static class GetAllMemoAsyncTask extends AsyncTask<String, Void, List<MemoVo>>{
         private DBRepository repository = null;
@@ -157,23 +155,22 @@ public class DBRepository {
         }
     }//end of GetCodeExistAsyncTask
 
-    private static class GetCodeAsyncTask extends AsyncTask<Integer, Void, String>{
-        private DBRepository repository = null;
+    private static class ViewMemoAsyncTask extends AsyncTask<Integer, Void, String>{
         private MemoListDao memoListDao;
-        public GetCodeAsyncTask(MemoListDao memoListDao){
+        public ViewMemoAsyncTask(MemoListDao memoListDao){
             this.memoListDao = memoListDao;
         }
         @Override
         protected String doInBackground(Integer... pos) {
-            Log.d("(1)mj GetCodeAsyncTask.doInBackground /pos ", Integer.toString(pos[0]));
             return memoListDao.getAll().get((int)pos[0]).getCode();
         }
         @Override
         protected void onPostExecute(String code) {
-            Log.d("(2)mj GetCodeAsyncTask.onPostExecute /code ", code);
-            repository.setCode(code);
+            Intent intent = new Intent(MainActivity.mContext, viewnoteActivity.class);
+            intent.putExtra("code", code);
+            MainActivity.mContext.startActivity(intent);
         }
-    }//end of GetCodeAsyncTask
+    }//end of ViewMemoAsyncTask
 
     private static class InsertMemoAsyncTask extends AsyncTask<MemoVo, Void, Void> {
         private MemoDao memoDao;
@@ -183,7 +180,6 @@ public class DBRepository {
         @Override
         protected Void doInBackground(MemoVo... memoVos) {
             memoDao.insert(memoVos[0]);
-            Log.d("mj Memo insert ", memoDao.getAll(memoVos[0].getCode()).get(0).getTitle());
             return null;
         }
     }//end of InsertMemoAsyncTask
@@ -207,7 +203,6 @@ public class DBRepository {
         }
         @Override
         protected Void doInBackground(MemoListVo... memoListVos) {
-            Log.d("DBRepository", "mj MemoList insert: "+memoListVos[0].getTitle());
             memoListDao.insert(memoListVos[0]);
             return null;
         }
@@ -224,4 +219,6 @@ public class DBRepository {
             return null;
         }
     }//end of DeleteMemoListAsyncTask
-}
+
+
+}//end of DBRepository
