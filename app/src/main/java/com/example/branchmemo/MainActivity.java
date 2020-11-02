@@ -139,21 +139,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void viewMemo(int pos) {
-        Log.d("뷰메모 pos", Integer.toString(pos));
-        /*AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                String code = DBModel.getMemoListDao().getAll().get(pos).getCode();
-                Intent intent = new Intent(mContext, viewnoteActivity.class);
-                intent.putExtra("code", code);
-                startActivity(intent);
-            }
-        });*/
+        Log.d("(0) mj 뷰메모 시작! pos", Integer.toString(pos));
         String code = DBModel.getPosCode(pos);
+        Log.d("(4) mj getPosCode 받은 후 ", ""+code);
         Intent intent = new Intent(mContext, viewnoteActivity.class);
         intent.putExtra("code", code);
         startActivity(intent);
     }
+
     public void deleteMemo(String memoCode) {
 //        memoListDatabase.memoListDao().delete(memoCode);
 //        memoDatabase.memeDao().delete(memoCode);

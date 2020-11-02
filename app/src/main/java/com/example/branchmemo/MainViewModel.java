@@ -43,5 +43,5 @@ public class MainViewModel extends AndroidViewModel {
     public MemoDao getMemoDao(){ return repository.getMemoDao(); }
     public MemoListDao getMemoListDao(){ return repository.getMemoListDao(); }
 
-    public String getPosCode(int pos){ return repository.getCode(pos); }
+    public String getPosCode(int pos){ return repository.getPosCode(pos); }
 }

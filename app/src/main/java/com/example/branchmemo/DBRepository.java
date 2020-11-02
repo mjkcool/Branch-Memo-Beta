@@ -1,6 +1,5 @@
 package com.example.branchmemo;
 
-import android.app.Application;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -45,26 +44,28 @@ public class DBRepository {
         MemoListVoReturnVal = memoListVoReturnVal;
     }
     public List<MemoListVo> getMemoListVoReturnVal() {
-
         return MemoListVoReturnVal;
     }
 
-    private String returnValCode;
+    private String Code;
     public void setCode(String code){
-        returnValCode = code;
+        Code = code;
+    }
+    private String getCode() {
+        return Code;
     }
 
-    public String getCode(int pos) {
+    public String getPosCode(int pos){
         GetCodeAsyncTask task = new GetCodeAsyncTask(memoListDao);
         task.repository = this;
         task.execute(pos);
-        return returnValCode;
+        Log.d("(3)mj return 직전", " "+getCode());
+        return getCode();
     }
 
-
     private int codeCount;
-    public void setCodeCount(int codeCount) { this.codeCount = codeCount; }
-    public int getCodeCount() { return codeCount; }
+    private void setCodeCount(int codeCount) { this.codeCount = codeCount; }
+    private int getCodeCount() { return codeCount; }
 
     public void insertMemo(MemoVo memo){
         InsertMemoAsyncTask task = new InsertMemoAsyncTask(memoDao);
@@ -76,14 +77,14 @@ public class DBRepository {
         task.execute(code);
     }
 
-    //사용자
+    //
     public List<MemoVo> getAllMemo(String code){
         GetAllMemoAsyncTask task = new GetAllMemoAsyncTask(memoDao);
         task.repository = this;
         task.execute(code);
         return getMemoVoReturnVal();
     }
-    //사용자
+    //
     public List<MemoListVo> getAllMemoList(){
         GetAllMemoListAsyncTask task = new GetAllMemoListAsyncTask(memoListDao);
         task.repository = this;
@@ -164,10 +165,12 @@ public class DBRepository {
         }
         @Override
         protected String doInBackground(Integer... pos) {
+            Log.d("(1)mj GetCodeAsyncTask.doInBackground /pos ", Integer.toString(pos[0]));
             return memoListDao.getAll().get((int)pos[0]).getCode();
         }
         @Override
         protected void onPostExecute(String code) {
+            Log.d("(2)mj GetCodeAsyncTask.onPostExecute /code ", code);
             repository.setCode(code);
         }
     }//end of GetCodeAsyncTask
@@ -180,7 +183,7 @@ public class DBRepository {
         @Override
         protected Void doInBackground(MemoVo... memoVos) {
             memoDao.insert(memoVos[0]);
-            Log.d("DBRepository", "정국 Memo insert "+memoDao.getAll(memoVos[0].getCode()).get(0).getTitle());
+            Log.d("mj Memo insert ", memoDao.getAll(memoVos[0].getCode()).get(0).getTitle());
             return null;
         }
     }//end of InsertMemoAsyncTask
@@ -204,7 +207,7 @@ public class DBRepository {
         }
         @Override
         protected Void doInBackground(MemoListVo... memoListVos) {
-            Log.d("DBRepository", "정국 MemoList insert: "+memoListVos[0].getTitle());
+            Log.d("DBRepository", "mj MemoList insert: "+memoListVos[0].getTitle());
             memoListDao.insert(memoListVos[0]);
             return null;
         }
