@@ -23,7 +23,7 @@ import java.sql.Date;
 public class NewnoteActivity extends AppCompatActivity {
     Toolbar toolbar;
     public static ActionBar actionBar;
-    EditText titleTxt, contentTxt;
+    EditText memoTitle, titleTxt, contentTxt;
     Button btn_toSave;
 
     @Override
@@ -38,6 +38,7 @@ public class NewnoteActivity extends AppCompatActivity {
         actionBar.setDisplayShowTitleEnabled(false);//기본 제목
         actionBar.setDisplayHomeAsUpEnabled(true); //툴바의 뒤로가기 버튼
 
+        memoTitle = findViewById(R.id.Totaltitle);
         titleTxt = findViewById(R.id.TitleView);
         contentTxt = findViewById(R.id.ContentView);
         btn_toSave = findViewById(R.id.saveBtn);
@@ -45,44 +46,38 @@ public class NewnoteActivity extends AppCompatActivity {
         btn_toSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                AsyncTask.execute(new Runnable() {
-//                    @Override
-//                    public void run() {
-                        String code, title, content;
-                        Calendar cal = Calendar.getInstance();
-                        Date date = new Date(System.currentTimeMillis());
+                String code, title, content;
+                Date date = new Date(System.currentTimeMillis());
 
-                        //content
-                        content = contentTxt.getText().toString().replace("\n", " ");
-                        //title
-                        title = titleTxt.getText().toString();
-                        if (content == null || content.length() == 0) { //검열
-                            Toast.makeText(getApplicationContext(), "Empty", Toast.LENGTH_SHORT).show();
-                        } else {
-                            if (title == null || title.length() == 0) { //대체 여부 결정
-                                String temp_title;
-                                if (content.length()>25) {
-                                    temp_title = content.substring(25);
-                                }else{
-                                    temp_title = content;
-                                }
-                                title = temp_title;
-                            }
-                            content = contentTxt.getText().toString();
-                            code = (new CodeCreater()).getNewCode();
+                //content
+                content = contentTxt.getText().toString().replace("\n", " ");
+                //title
+                title = titleTxt.getText().toString();
+                if (content == null || content.length() == 0) { //검열
+                    Toast.makeText(getApplicationContext(), "Empty", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (title == null || title.length() == 0) { //대체 여부 결정
+                        String temp_title;
+                        if (content.length()>25) {
+                            temp_title = content.substring(25);
+                        }else{
+                            temp_title = content;
+                        }
+                        title = temp_title;
+                    }
+                    content = contentTxt.getText().toString();
+                    code = (new CodeCreater()).getNewCode();
 
-                            MemoVo memo = new MemoVo(code, title, content, date);
-                            MemoListVo memolist = new MemoListVo(memo.getCode(), title, memo.getDateval());
+                    MemoVo memo = new MemoVo(code, title, content, date);
+                    MemoListVo memolist = new MemoListVo(memo.getCode(), memoTitle.getText().toString(), memo.getDateval());
 
-                            insertData(memo, memolist);
+                    insertData(memo, memolist);
 
-                            startActivity(new Intent(NewnoteActivity.this, MainActivity.class));
-                        }//end of if
-//                    }//end of run
-//                });//end of execute
+                    startActivity(new Intent(NewnoteActivity.this, MainActivity.class));
+                    finish();
+                }//end of if
             }//end of onClick
         }); //end of onClickListener
-
     }//end of onCreate
 
     private void insertData(MemoVo memo, MemoListVo memolist) {

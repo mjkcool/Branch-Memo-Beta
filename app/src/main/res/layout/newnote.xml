@@ -18,15 +18,20 @@
             android:id="@+id/toolbar2"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:background="@null"
             android:theme="@style/AppTheme">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/Totaltitle"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/app_name"
-                android:textColorHint="#FFFFFF"
-                android:textSize="20sp" />
+                android:background="@null"
+                android:hint="NEW MEMO"
+                android:inputType="textPersonName"
+                android:maxLength="20"
+                android:textSize="20sp"
+                android:textStyle="bold" />
         </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -66,9 +71,9 @@
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:ems="10"
-                        android:hint="Title"
+                        android:hint="Title of this branch"
                         android:inputType="textPersonName"
-                        android:maxLength="25"
+                        android:maxLength="20"
                         android:textSize="17sp"
                         android:textStyle="bold" />
 
@@ -84,7 +89,7 @@
                         android:background="@null"
                         android:ems="10"
                         android:gravity="start|top"
-                        android:hint="Content"
+                        android:hint="Enter the content"
                         android:inputType="textMultiLine"
                         android:maxHeight="300dp"
                         android:maxLength="2000"

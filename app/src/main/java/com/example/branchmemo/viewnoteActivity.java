@@ -86,7 +86,9 @@ public class viewnoteActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.action_delete:
-
+                MainActivity.DBModel.deleteMemo(memoCode);
+                MainActivity.DBModel.deleteMemoList(memoCode);
+                finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);
