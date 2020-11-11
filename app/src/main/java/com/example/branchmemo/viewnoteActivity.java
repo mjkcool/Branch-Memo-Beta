@@ -88,7 +88,8 @@ public class viewnoteActivity extends AppCompatActivity {
             case R.id.action_delete:
                 MainActivity.DBModel.deleteMemo(memoCode);
                 MainActivity.DBModel.deleteMemoList(memoCode);
-                finish();
+                startActivity(new Intent(viewnoteActivity.this, MainActivity.class));
+                //finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);
