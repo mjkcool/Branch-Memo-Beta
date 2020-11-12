@@ -19,6 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@null"
+            android:paddingBottom="5dp"
             android:theme="@style/AppTheme">
 
             <EditText
@@ -30,7 +31,7 @@
                 android:hint="NEW MEMO"
                 android:inputType="textPersonName"
                 android:maxLength="20"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
         </androidx.appcompat.widget.Toolbar>
 
@@ -56,6 +57,7 @@
                 app:cardElevation="0dp">
 
                 <LinearLayout
+                    android:id="@+id/cardlayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/card_edge"

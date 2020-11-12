@@ -8,16 +8,23 @@ import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -27,7 +34,12 @@ public class viewnoteActivity extends AppCompatActivity {
     public static ActionBar actionBar;
     private RecyclerView rv;
     String memoCode;
+    EditText L_title, L_content;
+    TextView L_Date;
+    Button L_Btn;
+    ImageView L_image;
 
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +52,11 @@ public class viewnoteActivity extends AppCompatActivity {
         actionBar.setDisplayShowTitleEnabled(false);//기본 제목
         actionBar.setDisplayHomeAsUpEnabled(true); //툴바의 뒤로가기 버튼
 
-
+        L_title = findViewById(R.id.L_title);
+        L_content = findViewById(R.id.L_content);
+        L_Date = findViewById(R.id.L_Date);
+        L_Btn = findViewById(R.id.L_savebtn);
+        L_image = findViewById(R.id.L_image);
         Intent memoIntent = getIntent();
         memoCode = memoIntent.getStringExtra("code");
 
@@ -57,6 +73,16 @@ public class viewnoteActivity extends AppCompatActivity {
             @Override
             protected List<MemoVo> doInBackground(Void... voids) {
                 List<MemoVo> memo_lists = MainActivity.DBModel.getMemoDao().getAll(memoCode);
+                //마지막 메모는 수정이 가능하게
+                MemoVo last_memo = memo_lists.remove(memo_lists.size() - 1);
+                L_title.setText(last_memo.getTitle());
+                L_title.setText(last_memo.getContentbody());
+                L_Date.setText(MainActivity.date.format(last_memo.getDateval())+" "+MainActivity.time24.format(last_memo.getDateval()));
+                if(memo_lists.size()>0){
+                    L_image.setImageResource(R.drawable.finish);
+                }else{
+                    L_image.setImageResource(R.drawable.circle);
+                }
                 return memo_lists;
             }
             @Override
@@ -68,8 +94,6 @@ public class viewnoteActivity extends AppCompatActivity {
         }
         GetData gd = new GetData();
         gd.execute();
-//        MemoAdapter adapter = new MemoAdapter(MainActivity.DBModel.getMemo(memoCode));
-//        rv.setAdapter(adapter);
     }
 
     @Override
@@ -88,14 +112,17 @@ public class viewnoteActivity extends AppCompatActivity {
             case R.id.action_delete:
                 MainActivity.DBModel.deleteMemo(memoCode);
                 MainActivity.DBModel.deleteMemoList(memoCode);
-                startActivity(new Intent(viewnoteActivity.this, MainActivity.class));
-                //finish();
+                Intent close = new Intent(viewnoteActivity.this, MainActivity.class);
+                close.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(close);
+                finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 }
 
+/*
 class FireMissilesDialogFragment extends DialogFragment {
     String memoCode;
     Context context;
@@ -124,3 +151,4 @@ class FireMissilesDialogFragment extends DialogFragment {
         return builder.create();
     }
 }
+*/

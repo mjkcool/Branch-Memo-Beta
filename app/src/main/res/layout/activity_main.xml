@@ -20,7 +20,8 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:layout_height="50dp"
+            android:paddingBottom="5dp">
 
             <TextView
                 android:id="@+id/appTitle"
