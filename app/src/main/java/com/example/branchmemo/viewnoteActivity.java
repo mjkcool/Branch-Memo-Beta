@@ -34,7 +34,7 @@ public class viewnoteActivity extends AppCompatActivity {
     public static ActionBar actionBar;
     private RecyclerView rv;
     String memoCode;
-    EditText L_title, L_content;
+    EditText L_title, L_content, L_noteName;
     TextView L_Date;
     Button L_Btn;
     ImageView L_image;
@@ -44,6 +44,9 @@ public class viewnoteActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_viewnote);
+
+        Intent memoIntent = getIntent();
+        memoCode = memoIntent.getStringExtra("code");
 
         toolbar = findViewById(R.id.toolbar3);
         setSupportActionBar(toolbar);
@@ -57,9 +60,7 @@ public class viewnoteActivity extends AppCompatActivity {
         L_Date = findViewById(R.id.L_Date);
         L_Btn = findViewById(R.id.L_savebtn);
         L_image = findViewById(R.id.L_image);
-        Intent memoIntent = getIntent();
-        memoCode = memoIntent.getStringExtra("code");
-
+        L_noteName = findViewById(R.id.notename);
 
         rv = findViewById(R.id.rec);
         rv.setHasFixedSize(true);
@@ -75,14 +76,16 @@ public class viewnoteActivity extends AppCompatActivity {
                 List<MemoVo> memo_lists = MainActivity.DBModel.getMemoDao().getAll(memoCode);
                 //마지막 메모는 수정이 가능하게
                 MemoVo last_memo = memo_lists.remove(memo_lists.size() - 1);
+                L_noteName.setText(MainActivity.DBModel.getMemoListDao().get(memoCode).getTitle());
                 L_title.setText(last_memo.getTitle());
-                L_title.setText(last_memo.getContentbody());
+                L_content.setText(last_memo.getContentbody());
                 L_Date.setText(MainActivity.date.format(last_memo.getDateval())+" "+MainActivity.time24.format(last_memo.getDateval()));
                 if(memo_lists.size()>0){
                     L_image.setImageResource(R.drawable.finish);
                 }else{
                     L_image.setImageResource(R.drawable.circle);
                 }
+
                 return memo_lists;
             }
             @Override
@@ -107,13 +110,15 @@ public class viewnoteActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                //메모 타이틀 바꾸기
                 finish();
                 return true;
             case R.id.action_delete:
                 MainActivity.DBModel.deleteMemo(memoCode);
                 MainActivity.DBModel.deleteMemoList(memoCode);
+                //Toast.makeText(getApplicationContext(), "Delete", Toast.LENGTH_SHORT).show();
                 Intent close = new Intent(viewnoteActivity.this, MainActivity.class);
-                close.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                close.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(close);
                 finish();
                 return true;

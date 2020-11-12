@@ -21,15 +21,18 @@
             android:paddingBottom="5dp"
             android:theme="@style/AppTheme">
 
-            <TextView
+            <EditText
                 android:id="@+id/notename"
-                android:layout_width="wrap_content"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="NOTE NAME"
+                android:background="@null"
+                android:hint="MEMO NAME"
+                android:inputType="textPersonName"
+                android:maxLength="20"
                 android:textColor="@color/colorPrimary"
-                android:textColorHint="#FFFFFF"
-                android:textSize="20sp" />
+                android:textSize="18sp"
+                android:textStyle="bold" />
         </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -135,6 +138,18 @@
                                 android:layout_height="wrap_content"
                                 android:gravity="right"
                                 android:orientation="horizontal">
+
+                                <CheckBox
+                                    android:id="@+id/saveCheckbox"
+                                    android:layout_width="50dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="bottom|left"
+                                    android:layout_weight="1"
+                                    android:bufferType="editable"
+                                    android:button="?android:attr/listChoiceIndicatorMultiple"
+                                    android:text="Don't save it branch"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="12sp" />
 
                                 <Button
                                     android:id="@+id/L_savebtn"

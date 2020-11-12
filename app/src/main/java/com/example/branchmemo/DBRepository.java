@@ -82,7 +82,7 @@ public class DBRepository {
     }
 
     public void deleteMemoList(String code){
-        DeleteMemoListAsyncTask task = new DeleteMemoListAsyncTask(code);
+        DeleteMemoListAsyncTask task = new DeleteMemoListAsyncTask(memoListDao);
         task.execute(code);
     }
 
@@ -210,7 +210,7 @@ public class DBRepository {
 
     private static class DeleteMemoListAsyncTask extends AsyncTask<String, Void, Void> {
         private MemoListDao memoListDao;
-        public DeleteMemoListAsyncTask(String code) {
+        public DeleteMemoListAsyncTask(MemoListDao memoListDao) {
             this.memoListDao = memoListDao;
         }
         @Override

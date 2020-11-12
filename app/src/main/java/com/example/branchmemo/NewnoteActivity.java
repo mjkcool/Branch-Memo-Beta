@@ -63,8 +63,13 @@ public class NewnoteActivity extends AppCompatActivity {
                     content = contentTxt.getText().toString();
                     code = (new CodeCreater()).getNewCode();
 
+                    String memoTitleTxt;
+                    if(memoTitle.getText().toString().length() ==0 || memoTitle.getText().toString()==null){
+                        memoTitleTxt = title;
+                    }else memoTitleTxt = memoTitle.getText().toString();
+
                     MemoVo memo = new MemoVo(code, title, content, date);
-                    MemoListVo memolist = new MemoListVo(memo.getCode(), memoTitle.getText().toString(), memo.getDateval());
+                    MemoListVo memolist = new MemoListVo(memo.getCode(), memoTitleTxt, memo.getDateval());
 
                     insertData(memo, memolist);
 

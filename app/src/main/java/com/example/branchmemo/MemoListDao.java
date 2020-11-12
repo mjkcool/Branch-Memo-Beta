@@ -14,6 +14,9 @@ public interface MemoListDao {
     @Query("SELECT * FROM memolist_data")
     List<MemoListVo> getAll();
 
+    @Query("SELECT * FROM memolist_data WHERE code=:code")
+    MemoListVo get(String code);
+
     @Insert
     void insert(MemoListVo memolist);
 
