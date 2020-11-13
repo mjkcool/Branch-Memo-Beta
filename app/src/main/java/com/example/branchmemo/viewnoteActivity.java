@@ -22,11 +22,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.sql.Date;
 import java.util.List;
 
 public class viewnoteActivity extends AppCompatActivity {
@@ -38,6 +40,7 @@ public class viewnoteActivity extends AppCompatActivity {
     TextView L_Date;
     Button L_Btn;
     ImageView L_image;
+    CheckBox L_chxbox;
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -55,17 +58,36 @@ public class viewnoteActivity extends AppCompatActivity {
         actionBar.setDisplayShowTitleEnabled(false);//기본 제목
         actionBar.setDisplayHomeAsUpEnabled(true); //툴바의 뒤로가기 버튼
 
+        L_noteName = findViewById(R.id.notename);
         L_title = findViewById(R.id.L_title);
         L_content = findViewById(R.id.L_content);
         L_Date = findViewById(R.id.L_Date);
         L_Btn = findViewById(R.id.L_savebtn);
         L_image = findViewById(R.id.L_image);
-        L_noteName = findViewById(R.id.notename);
+        L_chxbox = findViewById(R.id.saveCheckbox);
 
         rv = findViewById(R.id.rec);
         rv.setHasFixedSize(true);
         rv.setLayoutManager(new LinearLayoutManager(this));
         getData();
+
+        L_Btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Date date = new Date(System.currentTimeMillis());
+                MemoVo memo = new MemoVo(memoCode, L_title.getText().toString(), L_content.getText().toString(), date);
+                if(L_chxbox.isChecked()){
+                    MainActivity.DBModel.updateMemo(memo);
+                }else{
+                    MainActivity.DBModel.insertMemo(memo);
+                }
+                //MainActivity.DBModel
+
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
+            }
+        });
 
     }//end of onCreate
 
@@ -85,7 +107,6 @@ public class viewnoteActivity extends AppCompatActivity {
                 }else{
                     L_image.setImageResource(R.drawable.circle);
                 }
-
                 return memo_lists;
             }
             @Override
@@ -114,18 +135,36 @@ public class viewnoteActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.action_delete:
-                MainActivity.DBModel.deleteMemo(memoCode);
-                MainActivity.DBModel.deleteMemoList(memoCode);
-                //Toast.makeText(getApplicationContext(), "Delete", Toast.LENGTH_SHORT).show();
-                Intent close = new Intent(viewnoteActivity.this, MainActivity.class);
-                close.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(close);
-                finish();
+                deleteThis();
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private void deleteThis(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.dialog_title).setMessage(R.string.dialog_message)
+            .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    //return;
+                }
+            })
+            .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    MainActivity.DBModel.deleteMemo(memoCode);
+                    MainActivity.DBModel.deleteMemoList(memoCode);
+                    Intent close = new Intent(viewnoteActivity.this, MainActivity.class);
+                    close.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(close);
+                    finish();
+                }
+            });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
 }
+
+
 
 /*
 class FireMissilesDialogFragment extends DialogFragment {

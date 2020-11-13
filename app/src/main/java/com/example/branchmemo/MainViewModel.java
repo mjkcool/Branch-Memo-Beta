@@ -26,11 +26,11 @@ public class MainViewModel extends AndroidViewModel {
         repository.deleteMemo(code);
     }
     public MemoDao getMemoDao(){ return repository.getMemoDao(); }
-
-    //MemoList
-    public List<MemoListVo> getMemoList(){
-        return repository.getAllMemoList();
+    public void updateMemo(MemoVo memo){
+        memo.setId(repository.getLastId(memo.getCode()));
+        repository.updateMemo(memo);
     }
+
     public void insertMemoList(MemoListVo memoList){
         repository.insertMemoList(memoList);
     }

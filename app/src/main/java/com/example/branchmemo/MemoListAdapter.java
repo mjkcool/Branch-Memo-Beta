@@ -46,7 +46,7 @@ public class MemoListAdapter extends RecyclerView.Adapter<MemoListAdapter.ViewHo
             super(itemView);
             title = itemView.findViewById(R.id.listtitle);
             date = itemView.findViewById(R.id.listdate);
-            itemView.setOnClickListener(new View.OnClickListener() {
+            itemView./*findViewById(R.id.listitem).*/setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int pos = getAdapterPosition();

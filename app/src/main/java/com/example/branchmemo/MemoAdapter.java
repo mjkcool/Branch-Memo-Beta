@@ -31,17 +31,15 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.ViewHolder> {
         holder.title.setText(m.getTitle());
         holder.date.setText(MainActivity.date.format(m.getDateval())+" "+MainActivity.time24.format(m.getDateval()));
 
-        if(i-1 >= getItemCount()){ //마지막이면
-            holder.branchtop.setImageResource(R.drawable.finish);
-        }else{//아니면
-            if(i==0){ //처음이면
-                holder.branchtop.setImageResource(R.drawable.circle);
-            }else{
-                holder.branchtop.setImageResource(R.drawable.middle);
-                holder.branchbttm.setImageResource(R.drawable.straight);
-            }
-
+        if(i==0){ //처음이면
+            holder.branchtop.setImageResource(R.drawable.start);
+            holder.branchbttm.setImageResource(R.drawable.straight);
+        }else{
+            holder.branchtop.setImageResource(R.drawable.middle);
+            holder.branchbttm.setImageResource(R.drawable.straight);
         }
+
+
     }
 
     @Override
@@ -56,11 +54,16 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.ViewHolder> {
             date = itemView.findViewById(R.id.date);
             branchtop = itemView.findViewById(R.id.branchtop);
             branchbttm = itemView.findViewById(R.id.branchbottom);
-            itemView.findViewById(R.id.itemcard).setOnClickListener(new View.OnClickListener() {
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     //메모펼치기
-
+                }
+            });
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    return false;
                 }
             });
         }

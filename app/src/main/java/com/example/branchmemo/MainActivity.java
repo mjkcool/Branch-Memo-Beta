@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
+
     public static Context mContext;
 //    public static MemoDatabase memoDatabase;
 //    public static MemoListDatabase memoListDatabase;
