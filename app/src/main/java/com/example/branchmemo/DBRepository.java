@@ -73,12 +73,6 @@ public class DBRepository {
         return codeCount;
     }
 
-    public int getLastId(String code){
-        GetLastIdAsyncTask task = new GetLastIdAsyncTask(memoDao);
-        task.repository = this;
-        task.execute(code);
-        return lastId;
-    }
 
     //----------------------------------------------------------------------------------------------
     //AsyncTask Classes
@@ -149,6 +143,7 @@ public class DBRepository {
         public UpdateMemoAsyncTask(MemoDao memoDao){ this.memoDao = memoDao; }
         @Override
         protected Void doInBackground(MemoVo... memo) {
+            memo[0].setId(memoDao.getThisId(memo[0].getCode()));
             memoDao.update(memo[0]);
             return null;
         }

@@ -131,7 +131,6 @@ public class viewnoteActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                //메모 타이틀 바꾸기
                 finish();
                 return true;
             case R.id.action_delete:
@@ -163,36 +162,3 @@ public class viewnoteActivity extends AppCompatActivity {
         alertDialog.show();
     }
 }
-
-
-
-/*
-class FireMissilesDialogFragment extends DialogFragment {
-    String memoCode;
-    Context context;
-    public FireMissilesDialogFragment(String code, Context context){
-        this.context = context;
-        this.memoCode = code;
-    }
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        // Use the Builder class for convenient dialog construction
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage(R.string.dialog_message)
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
-                    }
-                })
-                .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        MainActivity.DBModel.deleteMemo(memoCode);
-                        MainActivity.DBModel.deleteMemoList(memoCode);
-
-                    }
-                });
-        // Create the AlertDialog object and return it
-        return builder.create();
-    }
-}
-*/

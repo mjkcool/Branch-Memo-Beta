@@ -26,13 +26,15 @@
             android:textSize="17sp"
             android:textStyle="bold" />
 
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
         <TextView
             android:id="@+id/listdate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
             android:text="0000/00/00 00:00" />
 
     </LinearLayout>

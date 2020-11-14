@@ -1,11 +1,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.branchmemo.viewnoteActivity">
+    tools:context="com.example.branchmemo.NewnoteActivity">
+
     <item
-        android:id="@+id/action_delete"
-        android:icon="@drawable/ic_delete"
+        android:id="@+id/action_save"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="SAVE"
         app:showAsAction="always" />
 </menu>

@@ -39,7 +39,6 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.ViewHolder> {
             holder.branchbttm.setImageResource(R.drawable.straight);
         }
 
-
     }
 
     @Override

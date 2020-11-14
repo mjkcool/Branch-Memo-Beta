@@ -71,7 +71,6 @@
                         android:layout_width="283dp"
                         android:layout_height="wrap_content"
                         android:ems="10"
-                        android:hint="Title"
                         android:inputType="textPersonName"
                         android:text="Titleview"
                         android:textSize="17sp"

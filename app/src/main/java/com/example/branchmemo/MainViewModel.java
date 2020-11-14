@@ -19,27 +19,26 @@ public class MainViewModel extends AndroidViewModel {
     }
 
     //Memo
-    public void insertMemo(MemoVo memo){
+    synchronized public void insertMemo(MemoVo memo){
         repository.insertMemo(memo);
     }
-    public void deleteMemo(String code){
+    synchronized public void deleteMemo(String code){
         repository.deleteMemo(code);
     }
     public MemoDao getMemoDao(){ return repository.getMemoDao(); }
-    public void updateMemo(MemoVo memo){
-        memo.setId(repository.getLastId(memo.getCode()));
+    synchronized public void updateMemo(MemoVo memo){
         repository.updateMemo(memo);
     }
 
-    public void insertMemoList(MemoListVo memoList){
+    synchronized public void insertMemoList(MemoListVo memoList){
         repository.insertMemoList(memoList);
     }
-    public void deleteMemoList(String code) { repository.deleteMemoList(code); }
+    synchronized public void deleteMemoList(String code) { repository.deleteMemoList(code); }
     public MemoListDao getMemoListDao(){ return repository.getMemoListDao(); }
 
     //Other functions
     public int selectCode(String code) { return repository.selectCode(code); }
-    public void viewMemo(int pos){  repository.viewMemo(pos); }
+    synchronized public void viewMemo(int pos){  repository.viewMemo(pos); }
 
 
 }
