@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Debug;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import java.sql.Date;
 
 public class NewnoteActivity extends AppCompatActivity {
+    public static Context mContext;
     Toolbar toolbar;
     public static ActionBar actionBar;
     EditText memoTitle, titleTxt, contentTxt;
@@ -28,7 +30,7 @@ public class NewnoteActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.newnote);
-
+        mContext = this;
 
         toolbar = findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
@@ -76,11 +78,7 @@ public class NewnoteActivity extends AppCompatActivity {
             MemoVo memo = new MemoVo(code, title, content, date);
             MemoListVo memolist = new MemoListVo(memo.getCode(), memoTitleTxt, memo.getDateval());
 
-            MainActivity.DBModel.insertMemo(memo);
-            MainActivity.DBModel.insertMemoList(memolist);
-
-            startActivity(new Intent(NewnoteActivity.this, MainActivity.class));
-            finish();
+            MainActivity.DBModel.creatNewMemo(memo, memolist); //finish
         }//end of if
     }
 

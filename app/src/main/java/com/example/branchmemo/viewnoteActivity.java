@@ -32,6 +32,7 @@ import java.sql.Date;
 import java.util.List;
 
 public class viewnoteActivity extends AppCompatActivity {
+    public static Context mContext;
     Toolbar toolbar;
     public static ActionBar actionBar;
     private RecyclerView rv;
@@ -47,6 +48,7 @@ public class viewnoteActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_viewnote);
+        mContext = this;
 
         Intent memoIntent = getIntent();
         memoCode = memoIntent.getStringExtra("code");
@@ -74,14 +76,20 @@ public class viewnoteActivity extends AppCompatActivity {
         L_Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String title = L_title.getText().toString();
+//                if(L_title.getText().toString().length() ==0 || L_title.getText().toString()==null){
+//                    title = null;
+//                }else{
+//                    title = L_title.getText().toString();
+//                }
                 Date date = new Date(System.currentTimeMillis());
-                MemoVo memo = new MemoVo(memoCode, L_title.getText().toString(), L_content.getText().toString(), date);
+                MemoVo memo = new MemoVo(memoCode, title, L_content.getText().toString(), date);
+
                 if(L_chxbox.isChecked()){
                     MainActivity.DBModel.updateMemo(memo);
                 }else{
                     MainActivity.DBModel.insertMemo(memo);
                 }
-                //MainActivity.DBModel
 
                 Intent intent = getIntent();
                 finish();
@@ -150,12 +158,7 @@ public class viewnoteActivity extends AppCompatActivity {
             })
             .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    MainActivity.DBModel.deleteMemo(memoCode);
-                    MainActivity.DBModel.deleteMemoList(memoCode);
-                    Intent close = new Intent(viewnoteActivity.this, MainActivity.class);
-                    close.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(close);
-                    finish();
+                    MainActivity.DBModel.deleteNote(memoCode);
                 }
             });
         AlertDialog alertDialog = builder.create();

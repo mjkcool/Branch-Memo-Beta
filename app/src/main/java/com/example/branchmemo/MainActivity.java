@@ -28,8 +28,6 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     public static Context mContext;
-//    public static MemoDatabase memoDatabase;
-//    public static MemoListDatabase memoListDatabase;
     public static MainViewModel DBModel;
 
     Toolbar toolbar;
@@ -109,8 +107,6 @@ public class MainActivity extends AppCompatActivity {
         mLayoutManager.setStackFromEnd(true);
         rv.setLayoutManager(mLayoutManager);
         getData();
-
-
     }//end of onCreate
 
     private void getData() {

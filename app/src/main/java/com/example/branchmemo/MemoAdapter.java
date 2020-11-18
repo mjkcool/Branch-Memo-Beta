@@ -1,12 +1,17 @@
 package com.example.branchmemo;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -39,6 +44,7 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.ViewHolder> {
             holder.branchbttm.setImageResource(R.drawable.straight);
         }
 
+
     }
 
     @Override
@@ -47,24 +53,43 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView title, date;
         private ImageView branchtop, branchbttm;
-        public ViewHolder(@NonNull View itemView) {
+        private View card;
+        public ViewHolder(@NonNull final View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.title);
             date = itemView.findViewById(R.id.date);
             branchtop = itemView.findViewById(R.id.branchtop);
             branchbttm = itemView.findViewById(R.id.branchbottom);
-            itemView.setOnClickListener(new View.OnClickListener() {
+            card = itemView.findViewById(R.id.itemcard);
+            card.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     //메모펼치기
+                    Toast.makeText(viewnoteActivity.mContext,"onclick-"+getAdapterPosition(), Toast.LENGTH_SHORT).show();
                 }
             });
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            card.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    return false;
+                    //메모 삭제
+                    PopupMenu popup = new PopupMenu(viewnoteActivity.mContext, card);
+                    popup.getMenuInflater().inflate(R.menu.del_memo_menu, popup.getMenu());
+
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            MainActivity.DBModel.deleteMemo(memo_lists.get(getAdapterPosition()));
+                            Intent intent = ((Activity)viewnoteActivity.mContext).getIntent();
+                            ((Activity)viewnoteActivity.mContext).finish();
+                            ((Activity)viewnoteActivity.mContext).startActivity(intent);
+                            return true;
+                        }
+                    });
+                    popup.show();
+                    return true;
                 }
             });
+
         }
     }
 }

@@ -25,6 +25,7 @@ public class MainViewModel extends AndroidViewModel {
     synchronized public void deleteMemo(String code){
         repository.deleteMemo(code);
     }
+    synchronized public void deleteMemo(MemoVo memo) { repository.deleteMemo(memo); }
     public MemoDao getMemoDao(){ return repository.getMemoDao(); }
     synchronized public void updateMemo(MemoVo memo){
         repository.updateMemo(memo);
@@ -41,4 +42,11 @@ public class MainViewModel extends AndroidViewModel {
     synchronized public void viewMemo(int pos){  repository.viewMemo(pos); }
 
 
+    public void creatNewMemo(MemoVo memo, MemoListVo memolist) {
+        repository.createNew(memo, memolist);
+    }
+
+    public void deleteNote(String memoCode) {
+        repository.deleteNote(memoCode);
+    }
 }

@@ -39,7 +39,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <LinearLayout
@@ -51,7 +51,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/first"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_margin="10dp"
                 app:cardCornerRadius="5dp"
                 app:cardElevation="0dp">
@@ -62,20 +62,16 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/card_edge"
                     android:orientation="vertical"
-                    android:paddingLeft="17dp"
-                    android:paddingTop="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingBottom="12dp">
+                    android:padding="17dp">
 
                     <EditText
                         android:id="@+id/TitleView"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:background="@null"
                         android:ems="10"
                         android:hint="Title of this branch"
                         android:inputType="textPersonName"
-                        android:maxLength="20"
                         android:textSize="17sp"
                         android:textStyle="bold" />
 
@@ -94,7 +90,6 @@
                         android:gravity="start|top"
                         android:hint="Enter the content"
                         android:inputType="textMultiLine"
-                        android:maxLength="2000"
                         android:textSize="16sp" />
 
                 </LinearLayout>

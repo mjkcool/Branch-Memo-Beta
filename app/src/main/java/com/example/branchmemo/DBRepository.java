@@ -1,5 +1,6 @@
 package com.example.branchmemo;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -31,7 +32,6 @@ public class DBRepository {
 
 
     private int codeCount;//GetCodeExistAsyncTask
-    private int lastId;//GetLastIdAsyncTask
 
     //----------------------------------------------------------------------------------------------
     //For User Methods
@@ -61,6 +61,10 @@ public class DBRepository {
         task.execute(code);
     }
 
+    public void deleteMemo(MemoVo memo){
+
+    }
+
     public void updateMemo(MemoVo memo){
         UpdateMemoAsyncTask task = new UpdateMemoAsyncTask(memoDao);
         task.execute(memo);
@@ -73,25 +77,67 @@ public class DBRepository {
         return codeCount;
     }
 
+    public void createNew(MemoVo memo, MemoListVo memolist) {
+        CreateNewNoteAsyncTask task = new CreateNewNoteAsyncTask(memoDao, memoListDao, memo, memolist);
+        task.execute();
+    }
+
+    public void deleteNote(String memoCode) {
+        DeleteNoteAsyncTask task = new DeleteNoteAsyncTask(memoDao, memoListDao);
+        task.execute(memoCode);
+    }
+
 
     //----------------------------------------------------------------------------------------------
     //AsyncTask Classes
 
-    private static class GetLastIdAsyncTask extends AsyncTask<String, Void, Integer>{
-        private DBRepository repository = null;
+    private static class DeleteNoteAsyncTask extends AsyncTask<String, Void, Void>{
         private MemoDao memoDao;
-        public GetLastIdAsyncTask(MemoDao memoDao) {
+        private MemoListDao memoListDao;
+        public DeleteNoteAsyncTask(MemoDao memoDao, MemoListDao memoListDao){
             this.memoDao = memoDao;
+            this.memoListDao = memoListDao;
         }
         @Override
-        protected Integer doInBackground(String... code) {
-            return memoDao.getThisId(code[0]);
+        protected Void doInBackground(String... code) {
+            memoDao.delete(code[0]);
+            memoListDao.delete(code[0]);
+            return null;
         }
         @Override
-        protected void onPostExecute(Integer val) {
-            repository.lastId = (int)val;
+        protected void onPostExecute(Void aVoid) {
+            Intent close = new Intent(viewnoteActivity.mContext, MainActivity.class);
+            close.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            viewnoteActivity.mContext.startActivity(close);
+            ((Activity)viewnoteActivity.mContext).finish();
         }
     }
+
+    private static class CreateNewNoteAsyncTask extends AsyncTask<Void, Void, Void> {
+        private MemoDao memoDao;
+        private MemoListDao memoListDao;
+        private MemoVo memoVo;
+        private MemoListVo memoListVo;
+        public CreateNewNoteAsyncTask(MemoDao memoDao, MemoListDao memoListDao, MemoVo memo, MemoListVo memoList) {
+            this.memoDao = memoDao;
+            this.memoListDao = memoListDao;
+            this.memoVo = memo;
+            this.memoListVo = memoList;
+        }
+        @Override
+        protected Void doInBackground(Void... voids) {
+            memoDao.insert(memoVo);
+            memoListDao.insert(memoListVo);
+            return null;
+        }
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            Intent intent = new Intent(NewnoteActivity.mContext, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            NewnoteActivity.mContext.startActivity(intent);
+            ((Activity)NewnoteActivity.mContext).finish();
+        }
+    }//end of InsertMemoAsyncTask
 
     private static class GetCodeExistAsyncTask extends AsyncTask<String, Void, Integer>{
         private DBRepository repository = null;
@@ -160,6 +206,8 @@ public class DBRepository {
             return null;
         }
     }//end of DeleteMemoAsyncTask
+
+
 
     private static class InsertMemoListAsyncTask extends AsyncTask<MemoListVo, Void, Void> {
         private MemoListDao memoListDao;

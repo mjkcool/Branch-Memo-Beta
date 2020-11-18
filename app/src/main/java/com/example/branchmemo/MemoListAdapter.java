@@ -33,6 +33,7 @@ public class MemoListAdapter extends RecyclerView.Adapter<MemoListAdapter.ViewHo
         MemoListVo md = memoList_lists.get(i);
         holder.title.setText(md.getTitle());
         holder.date.setText(MainActivity.date.format(md.getDateval())+" "+MainActivity.time24.format(md.getDateval()));
+
     }
 
     @Override
@@ -42,16 +43,17 @@ public class MemoListAdapter extends RecyclerView.Adapter<MemoListAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView title, date;
+        private View card;
         public ViewHolder(@NonNull View itemView){
             super(itemView);
             title = itemView.findViewById(R.id.listtitle);
             date = itemView.findViewById(R.id.listdate);
-            itemView./*findViewById(R.id.listitem).*/setOnClickListener(new View.OnClickListener() {
+            card = itemView.findViewById(R.id.listitem);
+            card.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int pos = getAdapterPosition();
                     if(pos != RecyclerView.NO_POSITION){
-                        //Toast.makeText(view.getContext(), Integer.toString(pos), Toast.LENGTH_SHORT).show();
                         ((MainActivity)MainActivity.mContext).viewMemo(pos);
                     }
                 }

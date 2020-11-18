@@ -31,7 +31,8 @@
                 android:maxLength="20"
                 android:textColor="@color/colorPrimary"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:autofillHints="" />
         </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -108,6 +109,7 @@
                                 android:hint="Title of this branch"
                                 android:inputType="textPersonName"
                                 android:maxLength="20"
+                                android:textColor="@color/colorPrimary"
                                 android:textSize="17sp"
                                 android:textStyle="bold" />
 
@@ -126,21 +128,23 @@
                                 android:inputType="textMultiLine"
                                 android:maxHeight="300dp"
                                 android:maxLength="2000"
+                                android:scrollbarStyle="insideOverlay"
+                                android:textColor="@color/colorPrimary"
                                 android:textSize="16sp" />
 
                             <Space
                                 android:layout_width="match_parent"
-                                android:layout_height="10dp" />
+                                android:layout_height="15dp" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:gravity="right"
+                                android:gravity="fill_horizontal"
                                 android:orientation="horizontal">
 
                                 <CheckBox
                                     android:id="@+id/saveCheckbox"
-                                    android:layout_width="50dp"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="bottom|left"
                                     android:layout_weight="1"
@@ -152,15 +156,16 @@
 
                                 <Button
                                     android:id="@+id/L_savebtn"
-                                    android:layout_width="73dp"
-                                    android:layout_height="wrap_content"
+                                    android:layout_width="50dp"
+                                    android:layout_height="match_parent"
                                     android:layout_gravity="right"
-                                    android:backgroundTint="@color/colorPrimary"
+                                    android:background="#00FFFFFF"
                                     android:gravity="center"
-                                    android:text="Save"
+                                    android:text="SAVE"
                                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                                    android:textColor="#FFFFFF"
-                                    android:textSize="15sp" />
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold" />
                             </LinearLayout>
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
