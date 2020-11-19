@@ -24,6 +24,9 @@ public interface MemoDao {
     @Delete
     void delete(MemoVo memo);
 
+    @Query("DELETE FROM memo_data WHERE id=:id_")
+    void delete(int id_);
+
     @Query("DELETE FROM memo_data")
     void deleteAll();
 

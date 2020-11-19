@@ -36,9 +36,13 @@ public class DBRepository {
     //----------------------------------------------------------------------------------------------
     //For User Methods
 
-    public void viewMemo(int pos){
+    public void viewNote(int pos){
         ViewMemoAsyncTask task = new ViewMemoAsyncTask(memoListDao);
         task.execute(pos);
+    }
+    public void loadNote(String code){
+        LoadMemoAsyncTask task = new LoadMemoAsyncTask(memoDao);
+        task.execute(code);
     }
 
     public void insertMemoList(MemoListVo memoList){
@@ -56,12 +60,10 @@ public class DBRepository {
         task.execute(memo);
     }
 
-    public void deleteMemo(String code){
-        DeleteMemoAsyncTask task = new DeleteMemoAsyncTask(memoDao);
-        task.execute(code);
-    }
 
     public void deleteMemo(MemoVo memo){
+        DeleteMemoAsyncTask task = new DeleteMemoAsyncTask(memoDao);
+        task.execute(memo);
 
     }
 
@@ -86,6 +88,7 @@ public class DBRepository {
         DeleteNoteAsyncTask task = new DeleteNoteAsyncTask(memoDao, memoListDao);
         task.execute(memoCode);
     }
+
 
 
     //----------------------------------------------------------------------------------------------
@@ -172,6 +175,19 @@ public class DBRepository {
         }
     }//end of ViewMemoAsyncTask
 
+    private static class LoadMemoAsyncTask extends AsyncTask<String, Void, Void>{
+        private MemoDao memoDao;
+        public LoadMemoAsyncTask(MemoDao memoDao){
+            this.memoDao = memoDao;
+        }
+        @Override
+        protected Void doInBackground(String... code) {
+            ((viewnoteActivity)viewnoteActivity.mContext).getData(memoDao.getAll(code[0]));
+            return null;
+        }
+
+    }
+
     private static class InsertMemoAsyncTask extends AsyncTask<MemoVo, Void, Void> {
         private MemoDao memoDao;
         public InsertMemoAsyncTask(MemoDao memoDao) {
@@ -181,6 +197,13 @@ public class DBRepository {
         protected Void doInBackground(MemoVo... memoVos) {
             memoDao.insert(memoVos[0]);
             return null;
+        }
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            Intent intent = ((Activity)viewnoteActivity.mContext).getIntent();
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            ((Activity)viewnoteActivity.mContext).finish();
+            viewnoteActivity.mContext.startActivity(intent);
         }
     }//end of InsertMemoAsyncTask
 
@@ -193,17 +216,31 @@ public class DBRepository {
             memoDao.update(memo[0]);
             return null;
         }
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            Intent intent = ((Activity)viewnoteActivity.mContext).getIntent();
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            ((Activity)viewnoteActivity.mContext).finish();
+            viewnoteActivity.mContext.startActivity(intent);
+        }
     }
 
-    private static class DeleteMemoAsyncTask extends AsyncTask<String, Void, Void> {
+    private static class DeleteMemoAsyncTask extends AsyncTask<MemoVo, Void, Void> {
         private MemoDao memoDao;
         public DeleteMemoAsyncTask(MemoDao memoDao) {
             this.memoDao = memoDao;
         }
         @Override
-        protected Void doInBackground(String... code) {
-            memoDao.delete(code[0]);
+        protected Void doInBackground(MemoVo... memo) {
+            memoDao.delete(memo[0].getId());
             return null;
+        }
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            Intent intent = ((Activity)viewnoteActivity.mContext).getIntent();
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            ((Activity)viewnoteActivity.mContext).finish();
+            viewnoteActivity.mContext.startActivity(intent);
         }
     }//end of DeleteMemoAsyncTask
 

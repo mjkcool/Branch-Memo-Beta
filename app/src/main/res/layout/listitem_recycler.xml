@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/list_adge"
+        android:duplicateParentState="true"
         android:orientation="vertical"
         android:paddingLeft="17dp"
         android:paddingTop="15dp"
@@ -20,21 +21,25 @@
             android:id="@+id/listtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Title"
-            android:inputType="textPersonName"
+            android:duplicateParentState="true"
+            android:inputType="text"
             android:text="Titleview"
             android:textSize="17sp"
             android:textStyle="bold" />
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="10dp" />
+            android:layout_height="10dp"
+            android:duplicateParentState="true" />
 
         <TextView
             android:id="@+id/listdate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clickable="false"
+            android:duplicateParentState="true"
             android:gravity="right"
+            android:inputType="datetime"
             android:text="0000/00/00 00:00" />
 
     </LinearLayout>

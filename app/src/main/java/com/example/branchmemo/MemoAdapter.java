@@ -53,19 +53,27 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView title, date;
         private ImageView branchtop, branchbttm;
-        private View card;
+
+        private View card, contentPane;
         public ViewHolder(@NonNull final View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.title);
             date = itemView.findViewById(R.id.date);
             branchtop = itemView.findViewById(R.id.branchtop);
             branchbttm = itemView.findViewById(R.id.branchbottom);
+            contentPane = itemView.findViewById(R.id.contentPane);
+            contentPane.setVisibility(View.GONE);
             card = itemView.findViewById(R.id.itemcard);
             card.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     //메모펼치기
                     Toast.makeText(viewnoteActivity.mContext,"onclick-"+getAdapterPosition(), Toast.LENGTH_SHORT).show();
+                    //Toggle
+                    if(contentPane.getVisibility()==View.VISIBLE) contentPane.setVisibility(View.GONE);
+                    else contentPane.setVisibility(View.VISIBLE);
+                    ImageView branch_add = new ImageView(viewnoteActivity.mContext);
+
                 }
             });
             card.setOnLongClickListener(new View.OnLongClickListener() {

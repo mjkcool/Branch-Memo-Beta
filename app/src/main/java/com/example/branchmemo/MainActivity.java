@@ -126,13 +126,4 @@ public class MainActivity extends AppCompatActivity {
         GetData gd = new GetData();
         gd.execute();
     }
-
-    public void viewMemo(int pos) {
-        DBModel.viewMemo(pos);
-    }
-
-    public void deleteMemo(String memoCode) {
-        DBModel.deleteMemo(memoCode);
-        DBModel.deleteMemoList(memoCode);
-    }
 }

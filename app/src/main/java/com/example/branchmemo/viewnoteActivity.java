@@ -71,7 +71,8 @@ public class viewnoteActivity extends AppCompatActivity {
         rv = findViewById(R.id.rec);
         rv.setHasFixedSize(true);
         rv.setLayoutManager(new LinearLayoutManager(this));
-        getData();
+        //getData(); 메모리스트를 조회해 getData로 넘겨 실행시키는 DB로직 호출
+        MainActivity.DBModel.loadNote(memoCode);
 
         L_Btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,32 +91,29 @@ public class viewnoteActivity extends AppCompatActivity {
                 }else{
                     MainActivity.DBModel.insertMemo(memo);
                 }
-
-                Intent intent = getIntent();
-                finish();
-                startActivity(intent);
             }
         });
 
     }//end of onCreate
 
-    private void getData() {
+    public void getData(final List<MemoVo> memoVos) {
         class GetData extends AsyncTask<Void, Void, List<MemoVo>> {
             @Override
             protected List<MemoVo> doInBackground(Void... voids) {
-                List<MemoVo> memo_lists = MainActivity.DBModel.getMemoDao().getAll(memoCode);
+
+//                List<MemoVo> memo_lists = MainActivity.DBModel.getMemoDao().getAll(memoCode);
                 //마지막 메모는 수정이 가능하게
-                MemoVo last_memo = memo_lists.remove(memo_lists.size() - 1);
+                MemoVo last_memo = memoVos.remove(memoVos.size() - 1);
                 L_noteName.setText(MainActivity.DBModel.getMemoListDao().get(memoCode).getTitle());
                 L_title.setText(last_memo.getTitle());
                 L_content.setText(last_memo.getContentbody());
                 L_Date.setText(MainActivity.date.format(last_memo.getDateval())+" "+MainActivity.time24.format(last_memo.getDateval()));
-                if(memo_lists.size()>0){
+                if(memoVos.size()>0){
                     L_image.setImageResource(R.drawable.finish);
                 }else{
                     L_image.setImageResource(R.drawable.circle);
                 }
-                return memo_lists;
+                return memoVos;
             }
             @Override
             protected void onPostExecute(List<MemoVo> memoVo) {

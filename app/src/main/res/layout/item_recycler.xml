@@ -31,12 +31,6 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp" />
 
-            <ImageView
-                android:id="@+id/branchbottom2"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:visibility="gone" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -53,6 +47,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="1dp"
                 android:layout_marginBottom="5dp"
+                android:duplicateParentState="true"
                 app:cardCornerRadius="5dp"
                 app:cardElevation="0dp">
 
@@ -60,6 +55,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/card_edge"
+                    android:duplicateParentState="true"
                     android:orientation="vertical"
                     android:paddingLeft="17dp"
                     android:paddingTop="15dp"
@@ -68,20 +64,37 @@
 
                     <TextView
                         android:id="@+id/title"
-                        android:layout_width="283dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:duplicateParentState="true"
                         android:ems="10"
-                        android:inputType="textPersonName"
+                        android:inputType="text"
                         android:text="Titleview"
                         android:textSize="17sp"
                         android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/textView"
+                    <LinearLayout
+                        android:id="@+id/contentPane"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="TextView"
-                        android:visibility="gone" />
+                        android:layout_height="match_parent"
+                        android:duplicateParentState="true"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="10dp"
+                            android:duplicateParentState="true" />
+
+                        <TextView
+                            android:id="@+id/textView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:duplicateParentState="true"
+                            android:text="TextView"
+                            android:textSize="16sp"
+                            android:visibility="visible" />
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -92,6 +105,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"
+                android:inputType="datetime"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="0000/00/00 00:00" />

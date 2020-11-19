@@ -22,9 +22,6 @@ public class MainViewModel extends AndroidViewModel {
     synchronized public void insertMemo(MemoVo memo){
         repository.insertMemo(memo);
     }
-    synchronized public void deleteMemo(String code){
-        repository.deleteMemo(code);
-    }
     synchronized public void deleteMemo(MemoVo memo) { repository.deleteMemo(memo); }
     public MemoDao getMemoDao(){ return repository.getMemoDao(); }
     synchronized public void updateMemo(MemoVo memo){
@@ -38,15 +35,15 @@ public class MainViewModel extends AndroidViewModel {
     public MemoListDao getMemoListDao(){ return repository.getMemoListDao(); }
 
     //Other functions
-    public int selectCode(String code) { return repository.selectCode(code); }
-    synchronized public void viewMemo(int pos){  repository.viewMemo(pos); }
+    synchronized public int selectCode(String code) { return repository.selectCode(code); }
+    synchronized public void viewNote(int pos){  repository.viewNote(pos); }
+    synchronized public void loadNote(String code){ repository.loadNote(code);}
 
-
-    public void creatNewMemo(MemoVo memo, MemoListVo memolist) {
+    synchronized public void creatNewMemo(MemoVo memo, MemoListVo memolist) {
         repository.createNew(memo, memolist);
     }
 
-    public void deleteNote(String memoCode) {
+    synchronized public void deleteNote(String memoCode) {
         repository.deleteNote(memoCode);
     }
 }

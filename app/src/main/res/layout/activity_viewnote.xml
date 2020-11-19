@@ -156,7 +156,7 @@
 
                                 <Button
                                     android:id="@+id/L_savebtn"
-                                    android:layout_width="50dp"
+                                    android:layout_width="60dp"
                                     android:layout_height="match_parent"
                                     android:layout_gravity="right"
                                     android:background="#00FFFFFF"

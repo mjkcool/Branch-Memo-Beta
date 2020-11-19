@@ -54,7 +54,7 @@ public class MemoListAdapter extends RecyclerView.Adapter<MemoListAdapter.ViewHo
                 public void onClick(View view) {
                     int pos = getAdapterPosition();
                     if(pos != RecyclerView.NO_POSITION){
-                        ((MainActivity)MainActivity.mContext).viewMemo(pos);
+                        MainActivity.DBModel.viewNote(pos);
                     }
                 }
             });
