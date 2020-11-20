@@ -11,5 +11,6 @@
     <string name="dialog_message">All of branches will be deleted permanently. Continue?</string>
     <string name="delete">DELETE</string>
     <string name="cancel">CANCEL</string>
+    <string name="NoneText">There are no notes.\nCreate new!</string>
 
 </resources>

@@ -97,7 +97,7 @@
                             android:orientation="vertical"
                             android:paddingLeft="17dp"
                             android:paddingTop="15dp"
-                            android:paddingRight="15dp"
+                            android:paddingRight="17dp"
                             android:paddingBottom="12dp">
 
                             <EditText
@@ -156,7 +156,7 @@
 
                                 <Button
                                     android:id="@+id/L_savebtn"
-                                    android:layout_width="60dp"
+                                    android:layout_width="50dp"
                                     android:layout_height="match_parent"
                                     android:layout_gravity="right"
                                     android:background="#00FFFFFF"

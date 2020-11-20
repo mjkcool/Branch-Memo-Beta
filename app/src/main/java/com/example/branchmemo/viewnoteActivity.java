@@ -71,8 +71,8 @@ public class viewnoteActivity extends AppCompatActivity {
         rv = findViewById(R.id.rec);
         rv.setHasFixedSize(true);
         rv.setLayoutManager(new LinearLayoutManager(this));
-        //getData(); 메모리스트를 조회해 getData로 넘겨 실행시키는 DB로직 호출
         MainActivity.DBModel.loadNote(memoCode);
+        String pre_title = L_title.getText().toString();
 
         L_Btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,12 +149,12 @@ public class viewnoteActivity extends AppCompatActivity {
     private void deleteThis(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.dialog_title).setMessage(R.string.dialog_message)
-            .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            .setPositiveButton(R.string.cancel, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     //return;
                 }
             })
-            .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+            .setNegativeButton(R.string.delete, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     MainActivity.DBModel.deleteNote(memoCode);
                 }

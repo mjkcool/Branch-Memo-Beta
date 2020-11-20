@@ -72,6 +72,7 @@
                         android:ems="10"
                         android:hint="Title of this branch"
                         android:inputType="textPersonName"
+                        android:textColor="@color/colorPrimary"
                         android:textSize="17sp"
                         android:textStyle="bold" />
 
@@ -90,6 +91,7 @@
                         android:gravity="start|top"
                         android:hint="Enter the content"
                         android:inputType="textMultiLine"
+                        android:textColor="@color/colorPrimary"
                         android:textSize="16sp" />
 
                 </LinearLayout>

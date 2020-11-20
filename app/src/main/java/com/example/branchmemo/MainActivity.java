@@ -3,18 +3,21 @@ package com.example.branchmemo;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.YuvImage;
 import android.icu.util.Calendar;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -33,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
     public static ActionBar actionBar;
     private static Handler mHandler ;
-    TextView Date_top_1, Date_top_2, Date_bottom;
+    TextView Date_top_1, Date_top_2, Date_bottom, NoneText;
     private RecyclerView rv;
 
     static SimpleDateFormat ap = new SimpleDateFormat("a", Locale.ENGLISH);
@@ -63,7 +66,8 @@ public class MainActivity extends AppCompatActivity {
         Date_top_1 = findViewById(R.id.a_view);
         Date_top_2 = findViewById(R.id.time_view);
         Date_bottom = findViewById(R.id.date_view);
-
+        NoneText = findViewById(R.id.NoneText);
+        NoneText.setVisibility(View.GONE);
 
         mHandler = new Handler() {
             @Override
@@ -120,10 +124,18 @@ public class MainActivity extends AppCompatActivity {
             protected void onPostExecute(List<MemoListVo> memoListVo) {
                 MemoListAdapter adapter = new MemoListAdapter(memoListVo);
                 rv.setAdapter(adapter);
+                if(adapter.getItemCount()==0){
+                    NoneText.setVisibility(View.VISIBLE);
+                }else NoneText.setVisibility(View.GONE);
                 super.onPostExecute(memoListVo);
             }
         }
         GetData gd = new GetData();
         gd.execute();
+    }
+
+    public static int DPtoPX(Context context, float dp){
+        int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
+        return px;
     }
 }

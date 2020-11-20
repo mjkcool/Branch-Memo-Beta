@@ -10,18 +10,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/list_adge"
-        android:duplicateParentState="true"
         android:orientation="vertical"
         android:paddingLeft="17dp"
         android:paddingTop="15dp"
         android:paddingRight="17dp"
-        android:paddingBottom="15dp">
+        android:paddingBottom="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/listtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:duplicateParentState="true"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
             android:inputType="text"
             android:text="Titleview"
             android:textSize="17sp"
@@ -30,14 +34,15 @@
         <Space
             android:layout_width="match_parent"
             android:layout_height="10dp"
-            android:duplicateParentState="true" />
+            android:focusable="false"
+            android:focusableInTouchMode="false" />
 
         <TextView
             android:id="@+id/listdate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="false"
-            android:duplicateParentState="true"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
             android:gravity="right"
             android:inputType="datetime"
             android:text="0000/00/00 00:00" />
