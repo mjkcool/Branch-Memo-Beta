@@ -43,13 +43,14 @@ public class MemoListAdapter extends RecyclerView.Adapter<MemoListAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView title, date;
-        private View card;
+        private View list;
         public ViewHolder(@NonNull View itemView){
             super(itemView);
             title = itemView.findViewById(R.id.listtitle);
             date = itemView.findViewById(R.id.listdate);
-            card = itemView.findViewById(R.id.listitem);
-            card.setOnClickListener(new View.OnClickListener() {
+            list = itemView.findViewById(R.id.listitem);
+            list.setVisibility(View.VISIBLE);
+            list.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int pos = getAdapterPosition();

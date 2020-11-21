@@ -40,7 +40,7 @@ public class viewnoteActivity extends AppCompatActivity {
     EditText L_title, L_content, L_noteName;
     TextView L_Date;
     Button L_Btn;
-    ImageView L_image;
+    ImageView L_branch;
     CheckBox L_chxbox;
 
     @SuppressLint("WrongViewCast")
@@ -65,7 +65,7 @@ public class viewnoteActivity extends AppCompatActivity {
         L_content = findViewById(R.id.L_content);
         L_Date = findViewById(R.id.L_Date);
         L_Btn = findViewById(R.id.L_savebtn);
-        L_image = findViewById(R.id.L_image);
+        L_branch = findViewById(R.id.L_image);
         L_chxbox = findViewById(R.id.saveCheckbox);
 
         rv = findViewById(R.id.rec);
@@ -100,18 +100,15 @@ public class viewnoteActivity extends AppCompatActivity {
         class GetData extends AsyncTask<Void, Void, List<MemoVo>> {
             @Override
             protected List<MemoVo> doInBackground(Void... voids) {
-
-//                List<MemoVo> memo_lists = MainActivity.DBModel.getMemoDao().getAll(memoCode);
-                //마지막 메모는 수정이 가능하게
                 MemoVo last_memo = memoVos.remove(memoVos.size() - 1);
-                L_noteName.setText(MainActivity.DBModel.getMemoListDao().get(memoCode).getTitle());
+                L_noteName.setText(last_memo.getTitle());
                 L_title.setText(last_memo.getTitle());
                 L_content.setText(last_memo.getContentbody());
                 L_Date.setText(MainActivity.date.format(last_memo.getDateval())+" "+MainActivity.time24.format(last_memo.getDateval()));
                 if(memoVos.size()>0){
-                    L_image.setImageResource(R.drawable.finish);
+                    L_branch.setImageResource(R.drawable.finish);
                 }else{
-                    L_image.setImageResource(R.drawable.circle);
+                    L_branch.setImageResource(R.drawable.circle);
                 }
                 return memoVos;
             }
