@@ -1,5 +1,7 @@
 package com.example.branchmemo;
 
+import com.example.branchmemo.MainActivity;
+
 import java.util.Random;
 
 public class CodeCreater {

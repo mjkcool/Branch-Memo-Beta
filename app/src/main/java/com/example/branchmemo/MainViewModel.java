@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
 import java.sql.Date;
-import java.util.List;
 
 public class MainViewModel extends AndroidViewModel {
 

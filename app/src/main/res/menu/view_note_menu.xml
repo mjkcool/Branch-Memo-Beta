@@ -4,6 +4,11 @@
     tools:context="com.example.branchmemo.NewnoteActivity">
 
     <item
+        android:id="@+id/action_branch"
+        android:orderInCategory="100"
+        android:title="BRANCH(VC) START"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/action_save"
         android:orderInCategory="100"
         android:title="SAVE"

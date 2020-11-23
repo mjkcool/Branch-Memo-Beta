@@ -4,21 +4,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.Image;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,16 +21,15 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.sql.Date;
 import java.util.List;
 
-public class viewnoteActivity extends AppCompatActivity {
+public class ViewBranchActivity extends AppCompatActivity {
     public static Context mContext;
     Toolbar toolbar;
     public static ActionBar actionBar;
-    private RecyclerView rv;
+    public RecyclerView rv;
     String memoCode;
     EditText L_title, L_content, L_noteName;
     String L_preTitle;
@@ -50,7 +43,7 @@ public class viewnoteActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_viewnote);
+        setContentView(R.layout.activity_view_branch);
         mContext = this;
 
         Intent memoIntent = getIntent();
@@ -125,7 +118,7 @@ public class viewnoteActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.viewnote_menu, menu);
+        getMenuInflater().inflate(R.menu.view_branch_menu, menu);
         return true;
     }
 

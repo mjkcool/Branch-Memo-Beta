@@ -14,7 +14,6 @@ import android.view.ViewGroup.LayoutParams;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
-import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -43,8 +42,8 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.ViewHolder> {
     }
 
     private void def_Branch(View parent, int i){
-        ImageView def_branch_top = new ImageView(viewnoteActivity.mContext);
-        ImageView def_branch_bttm = new ImageView(viewnoteActivity.mContext);
+        ImageView def_branch_top = new ImageView(ViewBranchActivity.mContext);
+        ImageView def_branch_bttm = new ImageView(ViewBranchActivity.mContext);
         if(i==0){ //처음이면
             def_branch_top.setImageResource(R.drawable.start);
             def_branch_bttm.setImageResource(R.drawable.straight);
@@ -60,7 +59,7 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.ViewHolder> {
 
     private void setBranchSize(View parent, ImageView branch, int dp){
         LayoutParams pa_params = parent.getLayoutParams();
-        LayoutParams params = new LayoutParams(pa_params.width, MainActivity.DPtoPX(viewnoteActivity.mContext, dp));
+        LayoutParams params = new LayoutParams(pa_params.width, MainActivity.DPtoPX(ViewBranchActivity.mContext, dp));
         branch.setLayoutParams(params);
     }
 
@@ -94,21 +93,33 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.ViewHolder> {
                         branch_area.setLayoutParams(params);
                     } else {
                         contentPane.setVisibility(View.VISIBLE);
-
-                        LayoutParams pa_params = branch_area.getLayoutParams();
-                        branch_area.measure(pa_params.MATCH_PARENT, pa_params.WRAP_CONTENT);
-                        int pa_height = branch_area.getMeasuredHeight();
-                        int dp50 = MainActivity.DPtoPX(viewnoteActivity.mContext, 50);
+                        //뷰 길이 맞추기
+                        LayoutParams pa_params = branch_area.getLayoutParams(); //동적으로 변한 크기
+                        branch_area.measure(pa_params.MATCH_PARENT, pa_params.WRAP_CONTENT); //를 다시 붙이기?
+                        int pa_height = branch_area.getMeasuredHeight(); //동적으로 변한 크기 사용
+                        int dp50 = MainActivity.DPtoPX(ViewBranchActivity.mContext, 50);
                         int quan = pa_height/dp50 - 2; //def branch 제외
 
-                        quan++;
-                        //if((0<pa_height%dp50 )&&(pa_height%dp50<50)) quan++;
+                        if(0<pa_height%dp50) quan++;
+
                         for(int i=0; i<quan; i++){
-                            ImageView branch_add = new ImageView(viewnoteActivity.mContext);
+                            ImageView branch_add = new ImageView(ViewBranchActivity.mContext);
                             branch_add.setImageResource(R.drawable.straight);
                             setBranchSize(branches, branch_add, 50);
                             ((LinearLayout)branches).addView(branch_add);
                         }
+
+                        RecyclerView rec = ((ViewBranchActivity)ViewBranchActivity.mContext).rv; //동적으로 변환 크기?
+                        LayoutParams params = rec.getLayoutParams();
+//                        rec.measure(params.MATCH_PARENT, params.WRAP_CONTENT);
+//                        rec.setLayoutParams(new LayoutParams(rec.getWidth(), rec.getHeight()));
+
+//
+//                        LayoutParams params = (LayoutParams)rec.getLayoutParams();
+                        Log.d("rec", ""+rec.getMeasuredHeight());
+//                        rec.measure(params.width, params.height);
+//                        params = new RecyclerView.LayoutParams(rec.getMeasuredWidth(), rec.getMeasuredHeight());
+//                        rec.setLayoutParams(params);
                     }
                 }
             });
@@ -116,16 +127,16 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.ViewHolder> {
                 @Override
                 public boolean onLongClick(View view) {
                 //메모 삭제
-                PopupMenu popup = new PopupMenu(viewnoteActivity.mContext, card);
+                PopupMenu popup = new PopupMenu(ViewBranchActivity.mContext, card);
                 popup.getMenuInflater().inflate(R.menu.del_memo_menu, popup.getMenu());
 
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         MainActivity.DBModel.deleteMemo(memo_lists.get(getAdapterPosition()));
-                        Intent intent = ((Activity)viewnoteActivity.mContext).getIntent();
-                        ((Activity)viewnoteActivity.mContext).finish();
-                        viewnoteActivity.mContext.startActivity(intent);
+                        Intent intent = ((Activity) ViewBranchActivity.mContext).getIntent();
+                        ((Activity) ViewBranchActivity.mContext).finish();
+                        ViewBranchActivity.mContext.startActivity(intent);
                         return true;
                     }
                 });

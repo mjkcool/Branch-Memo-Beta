@@ -124,7 +124,7 @@ public class DBRepository {
         @Override
         protected void onPostExecute(List<MemoListVo> list) {
             ((MainActivity)MainActivity.mContext).getData(list);
-            if(flg==0) ((Activity)viewnoteActivity.mContext).finish();//백버튼 동작시
+            if(flg==0) ((Activity) ViewBranchActivity.mContext).finish();//백버튼 동작시
         }
     }
 
@@ -158,10 +158,10 @@ public class DBRepository {
         }
         @Override
         protected void onPostExecute(Void aVoid) {
-            Intent close = new Intent(viewnoteActivity.mContext, MainActivity.class);
+            Intent close = new Intent(ViewBranchActivity.mContext, MainActivity.class);
             close.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            viewnoteActivity.mContext.startActivity(close);
-            ((Activity)viewnoteActivity.mContext).finish();
+            ViewBranchActivity.mContext.startActivity(close);
+            ((Activity) ViewBranchActivity.mContext).finish();
         }
     }
 
@@ -218,7 +218,7 @@ public class DBRepository {
         }
         @Override
         protected void onPostExecute(String code) {
-            Intent intent = new Intent(MainActivity.mContext, viewnoteActivity.class);
+            Intent intent = new Intent(MainActivity.mContext, ViewBranchActivity.class);
             intent.putExtra("code", code);
             MainActivity.mContext.startActivity(intent);
         }
@@ -239,7 +239,7 @@ public class DBRepository {
         }
         @Override
         protected void onPostExecute(List<MemoVo> list) {
-            ((viewnoteActivity)viewnoteActivity.mContext).getData(list, notename);
+            ((ViewBranchActivity) ViewBranchActivity.mContext).getData(list, notename);
         }
     }
 
@@ -259,7 +259,7 @@ public class DBRepository {
         }
         @Override
         protected void onPostExecute(List<MemoVo> list) {
-            ((viewnoteActivity)viewnoteActivity.mContext).getData(list, notename);
+            ((ViewBranchActivity) ViewBranchActivity.mContext).getData(list, notename);
         }
     }//end of InsertMemoAsyncTask
 
@@ -280,7 +280,7 @@ public class DBRepository {
         }
         @Override
         protected void onPostExecute(List<MemoVo> list) {
-            ((viewnoteActivity)viewnoteActivity.mContext).getData(list, notename);
+            ((ViewBranchActivity) ViewBranchActivity.mContext).getData(list, notename);
         }
     }
 
@@ -296,10 +296,10 @@ public class DBRepository {
         }
         @Override
         protected void onPostExecute(Void aVoid) {
-            Intent intent = ((Activity)viewnoteActivity.mContext).getIntent();
+            Intent intent = ((Activity) ViewBranchActivity.mContext).getIntent();
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            ((Activity)viewnoteActivity.mContext).finish();
-            viewnoteActivity.mContext.startActivity(intent);
+            ((Activity) ViewBranchActivity.mContext).finish();
+            ViewBranchActivity.mContext.startActivity(intent);
         }
     }//end of DeleteMemoAsyncTask
 

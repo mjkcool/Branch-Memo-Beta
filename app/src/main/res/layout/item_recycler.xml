@@ -24,15 +24,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingRight="5dp">
+            android:paddingTop="7dp"
+            android:paddingRight="7dp"
+            android:paddingBottom="7dp">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/itemcard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="1dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="1dp"
                 android:layout_marginBottom="5dp"
                 android:duplicateParentState="true"
                 app:cardCornerRadius="5dp"

@@ -3,21 +3,14 @@ package com.example.branchmemo;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.YuvImage;
 import android.icu.util.Calendar;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.util.TypedValue;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -99,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.newBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(mContext, NewnoteActivity.class));
+            startActivity(new Intent(mContext, NewnoteActivity.class));
             }
         });
 
@@ -109,18 +102,16 @@ public class MainActivity extends AppCompatActivity {
         mLayoutManager.setReverseLayout(true);
         mLayoutManager.setStackFromEnd(true);
         rv.setLayoutManager(mLayoutManager);
-
         MainActivity.DBModel.loadNoteList(); //getData
+
     }//end of onCreate
 
     public void getData(final List<MemoListVo> memoListVos) {
-
         MemoListAdapter adapter = new MemoListAdapter(memoListVos);
         rv.setAdapter(adapter);
         if(adapter.getItemCount()==0){
             NoneText.setVisibility(View.VISIBLE);
         }else NoneText.setVisibility(View.GONE);
-
     }
 
     public static int DPtoPX(Context context, float dp){
