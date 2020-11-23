@@ -80,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
         };
 
         class NewRunnable implements Runnable {
-            Calendar cal = Calendar.getInstance();
             @Override
             public void run() {
                 while (true) {
@@ -110,28 +109,18 @@ public class MainActivity extends AppCompatActivity {
         mLayoutManager.setReverseLayout(true);
         mLayoutManager.setStackFromEnd(true);
         rv.setLayoutManager(mLayoutManager);
-        getData();
+
+        MainActivity.DBModel.loadNoteList(); //getData
     }//end of onCreate
 
-    private void getData() {
-        class GetData extends AsyncTask<Void, Void, List<MemoListVo>> {
-            @Override
-            protected List<MemoListVo> doInBackground(Void... voids) {
-                List<MemoListVo> memoList_lists = DBModel.getMemoListDao().getAll();
-                return memoList_lists;
-            }
-            @Override
-            protected void onPostExecute(List<MemoListVo> memoListVo) {
-                MemoListAdapter adapter = new MemoListAdapter(memoListVo);
-                rv.setAdapter(adapter);
-                if(adapter.getItemCount()==0){
-                    NoneText.setVisibility(View.VISIBLE);
-                }else NoneText.setVisibility(View.GONE);
-                super.onPostExecute(memoListVo);
-            }
-        }
-        GetData gd = new GetData();
-        gd.execute();
+    public void getData(final List<MemoListVo> memoListVos) {
+
+        MemoListAdapter adapter = new MemoListAdapter(memoListVos);
+        rv.setAdapter(adapter);
+        if(adapter.getItemCount()==0){
+            NoneText.setVisibility(View.VISIBLE);
+        }else NoneText.setVisibility(View.GONE);
+
     }
 
     public static int DPtoPX(Context context, float dp){

@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
+import java.sql.Date;
 import java.util.List;
 
 public class MainViewModel extends AndroidViewModel {
@@ -19,13 +20,13 @@ public class MainViewModel extends AndroidViewModel {
     }
 
     //Memo
-    synchronized public void insertMemo(MemoVo memo){
-        repository.insertMemo(memo);
+    synchronized public void insertMemo(MemoVo memo, String notename){
+        repository.insertMemo(memo, notename);
     }
     synchronized public void deleteMemo(MemoVo memo) { repository.deleteMemo(memo); }
     public MemoDao getMemoDao(){ return repository.getMemoDao(); }
-    synchronized public void updateMemo(MemoVo memo){
-        repository.updateMemo(memo);
+    synchronized public void updateMemo(MemoVo memo, String notename){
+        repository.updateMemo(memo, notename);
     }
 
     synchronized public void insertMemoList(MemoListVo memoList){
@@ -45,5 +46,11 @@ public class MainViewModel extends AndroidViewModel {
 
     synchronized public void deleteNote(String memoCode) {
         repository.deleteNote(memoCode);
+    }
+
+    synchronized public void loadNoteList() { repository.loadNoteList(); }
+
+    synchronized public void updateNote(String memoCode, String title, Date date, int flg) {
+        repository.updateNote(memoCode, title, date, flg);
     }
 }

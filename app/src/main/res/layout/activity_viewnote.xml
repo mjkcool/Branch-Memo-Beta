@@ -50,12 +50,15 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rec"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:overScrollMode="never" />
 
             <LinearLayout
                 android:id="@+id/L_branch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:orientation="horizontal"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -125,9 +128,9 @@
                                 android:gravity="start|top"
                                 android:hint="Enter the content"
                                 android:inputType="textMultiLine"
-                                android:maxHeight="300dp"
                                 android:maxLength="2000"
                                 android:scrollbarStyle="insideOverlay"
+                                android:scrollbars="vertical"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="16sp" />
 

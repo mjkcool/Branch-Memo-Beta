@@ -5,7 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 
-import java.util.ArrayList;
+
+import java.sql.Date;
 import java.util.List;
 
 public class DBRepository {
@@ -41,7 +42,7 @@ public class DBRepository {
         task.execute(pos);
     }
     public void loadNote(String code){
-        LoadMemoAsyncTask task = new LoadMemoAsyncTask(memoDao);
+        LoadMemoAsyncTask task = new LoadMemoAsyncTask(memoDao, memoListDao);
         task.execute(code);
     }
 
@@ -55,8 +56,8 @@ public class DBRepository {
         task.execute(code);
     }
 
-    public void insertMemo(MemoVo memo){
-        InsertMemoAsyncTask task = new InsertMemoAsyncTask(memoDao);
+    public void insertMemo(MemoVo memo, String notename){
+        InsertMemoAsyncTask task = new InsertMemoAsyncTask(memoDao, memoListDao, notename);
         task.execute(memo);
     }
 
@@ -67,8 +68,8 @@ public class DBRepository {
 
     }
 
-    public void updateMemo(MemoVo memo){
-        UpdateMemoAsyncTask task = new UpdateMemoAsyncTask(memoDao);
+    public void updateMemo(MemoVo memo, String notename){
+        UpdateMemoAsyncTask task = new UpdateMemoAsyncTask(memoDao, memoListDao, notename);
         task.execute(memo);
     }
 
@@ -89,10 +90,58 @@ public class DBRepository {
         task.execute(memoCode);
     }
 
+    public void loadNoteList() {
+        LoadNoteListAsyncTask task = new LoadNoteListAsyncTask(memoListDao);
+        task.execute();
+    }
+
+    public void updateNote(String memoCode, String title, Date date, int flg) {
+        UpdateNoteAsyncTask task = new UpdateNoteAsyncTask(memoListDao, title, date, flg);
+        task.execute(memoCode);
+    }
 
 
     //----------------------------------------------------------------------------------------------
     //AsyncTask Classes
+
+    private static class UpdateNoteAsyncTask extends AsyncTask<String, Void, List<MemoListVo>>{
+        private MemoListDao memoListDao;
+        private String title;
+        private Date date;
+        private int flg;
+        public UpdateNoteAsyncTask(MemoListDao memoListDao, String title, Date date, int flg){
+            this.memoListDao = memoListDao;
+            this.title = title;
+            this.date = date;
+            this.flg = flg;
+        }
+        @Override
+        protected List<MemoListVo> doInBackground(String... code) {
+            memoListDao.updateNote(code[0], title, date);
+            return memoListDao.getAll();
+
+        }
+        @Override
+        protected void onPostExecute(List<MemoListVo> list) {
+            ((MainActivity)MainActivity.mContext).getData(list);
+            if(flg==0) ((Activity)viewnoteActivity.mContext).finish();//백버튼 동작시
+        }
+    }
+
+    private static class LoadNoteListAsyncTask extends AsyncTask<Void, Void, List<MemoListVo>>{
+        private MemoListDao memoListDao;
+        public LoadNoteListAsyncTask(MemoListDao memoListDao){
+            this.memoListDao = memoListDao;
+        }
+        @Override
+        protected List<MemoListVo> doInBackground(Void... Void) {
+            return memoListDao.getAll();
+        }
+        @Override
+        protected void onPostExecute(List<MemoListVo> list) {
+            ((MainActivity)MainActivity.mContext).getData(list);
+        }
+    }
 
     private static class DeleteNoteAsyncTask extends AsyncTask<String, Void, Void>{
         private MemoDao memoDao;
@@ -175,53 +224,63 @@ public class DBRepository {
         }
     }//end of ViewMemoAsyncTask
 
-    private static class LoadMemoAsyncTask extends AsyncTask<String, Void, Void>{
+    private static class LoadMemoAsyncTask extends AsyncTask<String, Void, List<MemoVo>>{
         private MemoDao memoDao;
-        public LoadMemoAsyncTask(MemoDao memoDao){
+        private MemoListDao memoListDao;
+        private String notename;
+        public LoadMemoAsyncTask(MemoDao memoDao, MemoListDao memoListDao){
             this.memoDao = memoDao;
+            this.memoListDao = memoListDao;
         }
         @Override
-        protected Void doInBackground(String... code) {
-            ((viewnoteActivity)viewnoteActivity.mContext).getData(memoDao.getAll(code[0]));
-            return null;
+        protected List<MemoVo> doInBackground(String... code) {
+            notename = memoListDao.get(code[0]).getTitle();
+            return memoDao.getAll(code[0]);
         }
-
+        @Override
+        protected void onPostExecute(List<MemoVo> list) {
+            ((viewnoteActivity)viewnoteActivity.mContext).getData(list, notename);
+        }
     }
 
-    private static class InsertMemoAsyncTask extends AsyncTask<MemoVo, Void, Void> {
+    private static class InsertMemoAsyncTask extends AsyncTask<MemoVo, Void, List<MemoVo>> {
         private MemoDao memoDao;
-        public InsertMemoAsyncTask(MemoDao memoDao) {
+        private MemoListDao memoListDao;
+        private String notename;
+        public InsertMemoAsyncTask(MemoDao memoDao, MemoListDao memoListDao, String notename) {
             this.memoDao = memoDao;
+            this.memoListDao = memoListDao;
+            this.notename = notename;
         }
         @Override
-        protected Void doInBackground(MemoVo... memoVos) {
-            memoDao.insert(memoVos[0]);
-            return null;
+        protected List<MemoVo> doInBackground(MemoVo... memo) {
+            memoDao.insert(memo[0]);
+            return memoDao.getAll(memo[0].getCode());
         }
         @Override
-        protected void onPostExecute(Void aVoid) {
-            Intent intent = ((Activity)viewnoteActivity.mContext).getIntent();
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            ((Activity)viewnoteActivity.mContext).finish();
-            viewnoteActivity.mContext.startActivity(intent);
+        protected void onPostExecute(List<MemoVo> list) {
+            ((viewnoteActivity)viewnoteActivity.mContext).getData(list, notename);
         }
     }//end of InsertMemoAsyncTask
 
-    private static class UpdateMemoAsyncTask extends AsyncTask<MemoVo, Void, Void>{
+    private static class UpdateMemoAsyncTask extends AsyncTask<MemoVo, Void, List<MemoVo>>{
         private MemoDao memoDao;
-        public UpdateMemoAsyncTask(MemoDao memoDao){ this.memoDao = memoDao; }
-        @Override
-        protected Void doInBackground(MemoVo... memo) {
-            memo[0].setId(memoDao.getThisId(memo[0].getCode()));
-            memoDao.update(memo[0]);
-            return null;
+        private MemoListDao memoListDao;
+        private String notename;
+        public UpdateMemoAsyncTask(MemoDao memoDao, MemoListDao memoListDao, String notename){
+            this.memoDao = memoDao;
+            this.memoListDao = memoListDao;
+            this.notename = notename;
         }
         @Override
-        protected void onPostExecute(Void aVoid) {
-            Intent intent = ((Activity)viewnoteActivity.mContext).getIntent();
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            ((Activity)viewnoteActivity.mContext).finish();
-            viewnoteActivity.mContext.startActivity(intent);
+        protected List<MemoVo> doInBackground(MemoVo... memo) {
+            memo[0].setId(memoDao.getThisId(memo[0].getCode()));
+            memoDao.update(memo[0]);
+            return memoDao.getAll(memo[0].getCode());
+        }
+        @Override
+        protected void onPostExecute(List<MemoVo> list) {
+            ((viewnoteActivity)viewnoteActivity.mContext).getData(list, notename);
         }
     }
 

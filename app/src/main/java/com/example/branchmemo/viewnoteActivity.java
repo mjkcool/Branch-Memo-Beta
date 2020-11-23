@@ -18,6 +18,7 @@ import android.content.Intent;
 import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,10 +39,12 @@ public class viewnoteActivity extends AppCompatActivity {
     private RecyclerView rv;
     String memoCode;
     EditText L_title, L_content, L_noteName;
+    String L_preTitle;
     TextView L_Date;
     Button L_Btn;
     ImageView L_branch;
     CheckBox L_chxbox;
+    Date L_VosDate;
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -71,61 +74,57 @@ public class viewnoteActivity extends AppCompatActivity {
         rv = findViewById(R.id.rec);
         rv.setHasFixedSize(true);
         rv.setLayoutManager(new LinearLayoutManager(this));
-        MainActivity.DBModel.loadNote(memoCode);
-        String pre_title = L_title.getText().toString();
+        MainActivity.DBModel.loadNote(memoCode); //getData
+        L_preTitle = L_title.getText().toString();
 
         L_Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String title = L_title.getText().toString();
-//                if(L_title.getText().toString().length() ==0 || L_title.getText().toString()==null){
-//                    title = null;
-//                }else{
-//                    title = L_title.getText().toString();
-//                }
+                String title;
+                String input_title = L_title.getText().toString().replace(" ", "");
+                if(input_title.length()<=0 || input_title==null){
+                    title = input_title;
+                }else{
+                    title = L_title.getText().toString();
+                }
                 Date date = new Date(System.currentTimeMillis());
                 MemoVo memo = new MemoVo(memoCode, title, L_content.getText().toString(), date);
 
+                String notename = L_noteName.getText().toString();
+                MainActivity.DBModel.updateNote(memoCode, notename, L_VosDate, 1);
+
                 if(L_chxbox.isChecked()){
-                    MainActivity.DBModel.updateMemo(memo);
+                    MainActivity.DBModel.updateMemo(memo, notename);
                 }else{
-                    MainActivity.DBModel.insertMemo(memo);
+                    MainActivity.DBModel.insertMemo(memo, notename);
                 }
+
             }
         });
 
     }//end of onCreate
 
-    public void getData(final List<MemoVo> memoVos) {
-        class GetData extends AsyncTask<Void, Void, List<MemoVo>> {
-            @Override
-            protected List<MemoVo> doInBackground(Void... voids) {
-                MemoVo last_memo = memoVos.remove(memoVos.size() - 1);
-                L_noteName.setText(last_memo.getTitle());
-                L_title.setText(last_memo.getTitle());
-                L_content.setText(last_memo.getContentbody());
-                L_Date.setText(MainActivity.date.format(last_memo.getDateval())+" "+MainActivity.time24.format(last_memo.getDateval()));
-                if(memoVos.size()>0){
-                    L_branch.setImageResource(R.drawable.finish);
-                }else{
-                    L_branch.setImageResource(R.drawable.circle);
-                }
-                return memoVos;
+    public void getData(final List<MemoVo> memoVos, final String Notename) {
+
+            MemoVo last_memo = memoVos.remove(memoVos.size() - 1);
+            L_VosDate = last_memo.getDateval();
+            L_noteName.setText(Notename);
+            L_title.setText(last_memo.getTitle());
+            L_content.setText(last_memo.getContentbody());
+            L_Date.setText(MainActivity.date.format(last_memo.getDateval())+" "+MainActivity.time24.format(last_memo.getDateval()));
+            if(memoVos.size()>0){
+                L_branch.setImageResource(R.drawable.finish);
+            }else{
+                L_branch.setImageResource(R.drawable.circle);
             }
-            @Override
-            protected void onPostExecute(List<MemoVo> memoVo) {
-                MemoAdapter adapter = new MemoAdapter(memoVo);
-                rv.setAdapter(adapter);
-                super.onPostExecute(memoVo);
-            }
-        }
-        GetData gd = new GetData();
-        gd.execute();
+
+            MemoAdapter adapter = new MemoAdapter(memoVos);
+            rv.setAdapter(adapter);
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.viewnote_menu, menu);
         return true;
     }
@@ -134,7 +133,7 @@ public class viewnoteActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                finish();
+                MainActivity.DBModel.updateNote(memoCode, L_noteName.getText().toString(), L_VosDate, 0);
                 return true;
             case R.id.action_delete:
                 deleteThis();

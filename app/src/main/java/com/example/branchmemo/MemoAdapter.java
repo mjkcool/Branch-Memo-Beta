@@ -2,6 +2,7 @@ package com.example.branchmemo;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -9,11 +10,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.view.ViewGroup.LayoutParams;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -51,15 +52,15 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.ViewHolder> {
             def_branch_top.setImageResource(R.drawable.middle);
             def_branch_bttm.setImageResource(R.drawable.straight);
         }
-        setBranchSize(parent, def_branch_top);
-        setBranchSize(parent, def_branch_bttm);
+        setBranchSize(parent, def_branch_top, 50);
+        setBranchSize(parent, def_branch_bttm, 50);
         ((LinearLayout)parent).addView(def_branch_top);
         ((LinearLayout)parent).addView(def_branch_bttm);
     }
 
-    private void setBranchSize(View parent, ImageView branch){
-        LayoutParams pa_params = (parent).getLayoutParams();
-        LayoutParams params = new LayoutParams(pa_params.width, MainActivity.DPtoPX(viewnoteActivity.mContext, 50));
+    private void setBranchSize(View parent, ImageView branch, int dp){
+        LayoutParams pa_params = parent.getLayoutParams();
+        LayoutParams params = new LayoutParams(pa_params.width, MainActivity.DPtoPX(viewnoteActivity.mContext, dp));
         branch.setLayoutParams(params);
     }
 
@@ -84,30 +85,31 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.ViewHolder> {
             cardLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                //메모펼치기
-                Toast.makeText(viewnoteActivity.mContext,"onclick-"+getAdapterPosition(), Toast.LENGTH_SHORT).show();
-                //Toggle
-                if(contentPane.getVisibility()==View.VISIBLE) {
-                    ((ViewGroup)branches).removeAllViews();
-                    def_Branch(branches, getAdapterPosition());
-                    contentPane.setVisibility(View.GONE);
-                    LayoutParams params = branch_area.getLayoutParams();
-                    params.height = MainActivity.DPtoPX(viewnoteActivity.mContext, 100);
-                    branch_area.setLayoutParams(params);
-                } else {
-                    contentPane.setVisibility(View.VISIBLE);
-                    int num = (content.getText().toString().length()/150)+1/*자*/;
-                    if(num>5) num=5;
-                    for(int i=0; i<num; i++){
-                        ImageView branch_add = new ImageView(viewnoteActivity.mContext);
-                        branch_add.setImageResource(R.drawable.straight);
-                        setBranchSize(branches, branch_add);
-                        ((LinearLayout)branches).addView(branch_add);
+                    //Toggle
+                    if(contentPane.getVisibility()==View.VISIBLE) {
+                        ((ViewGroup)branches).removeAllViews();
+                        def_Branch(branches, getAdapterPosition());
+                        contentPane.setVisibility(View.GONE);
+                        LayoutParams params = branch_area.getLayoutParams();
+                        branch_area.setLayoutParams(params);
+                    } else {
+                        contentPane.setVisibility(View.VISIBLE);
+
+                        LayoutParams pa_params = branch_area.getLayoutParams();
+                        branch_area.measure(pa_params.MATCH_PARENT, pa_params.WRAP_CONTENT);
+                        int pa_height = branch_area.getMeasuredHeight();
+                        int dp50 = MainActivity.DPtoPX(viewnoteActivity.mContext, 50);
+                        int quan = pa_height/dp50 - 2; //def branch 제외
+
+                        quan++;
+                        //if((0<pa_height%dp50 )&&(pa_height%dp50<50)) quan++;
+                        for(int i=0; i<quan; i++){
+                            ImageView branch_add = new ImageView(viewnoteActivity.mContext);
+                            branch_add.setImageResource(R.drawable.straight);
+                            setBranchSize(branches, branch_add, 50);
+                            ((LinearLayout)branches).addView(branch_add);
+                        }
                     }
-                    LayoutParams params = branch_area.getLayoutParams();
-                    params.height += MainActivity.DPtoPX(viewnoteActivity.mContext, 50/*50*num*/);
-                    branch_area.setLayoutParams(params);
-                }
                 }
             });
             cardLayout.setOnLongClickListener(new View.OnLongClickListener() {
