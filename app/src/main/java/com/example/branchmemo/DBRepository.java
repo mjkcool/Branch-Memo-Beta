@@ -37,69 +37,67 @@ public class DBRepository {
     //----------------------------------------------------------------------------------------------
     //For User Methods
 
-    public void viewNote(int pos){
+    synchronized public void viewNote(int pos){
         ViewMemoAsyncTask task = new ViewMemoAsyncTask(memoListDao);
         task.execute(pos);
     }
-    public void loadNote(String code){
+    synchronized public void loadNote(String code){
         LoadMemoAsyncTask task = new LoadMemoAsyncTask(memoDao, memoListDao);
         task.execute(code);
     }
 
-    public void insertMemoList(MemoListVo memoList){
+    synchronized public void insertMemoList(MemoListVo memoList){
         InsertMemoListAsyncTask task = new InsertMemoListAsyncTask(memoListDao);
         task.execute(memoList);
     }
 
-    public void deleteMemoList(String code){
+    synchronized public void deleteMemoList(String code){
         DeleteMemoListAsyncTask task = new DeleteMemoListAsyncTask(memoListDao);
         task.execute(code);
     }
 
-    public void insertMemo(MemoVo memo, String notename){
+    synchronized public void insertMemo(MemoVo memo, String notename){
         InsertMemoAsyncTask task = new InsertMemoAsyncTask(memoDao, memoListDao, notename);
         task.execute(memo);
     }
 
-
-    public void deleteMemo(MemoVo memo){
+    synchronized public void deleteMemo(MemoVo memo){
         DeleteMemoAsyncTask task = new DeleteMemoAsyncTask(memoDao);
         task.execute(memo);
 
     }
 
-    public void updateMemo(MemoVo memo, String notename){
+    synchronized public void updateMemo(MemoVo memo, String notename){
         UpdateMemoAsyncTask task = new UpdateMemoAsyncTask(memoDao, memoListDao, notename);
         task.execute(memo);
     }
 
-    public int selectCode(String code){
+    synchronized public int selectCode(String code){
         GetCodeExistAsyncTask task = new GetCodeExistAsyncTask(memoListDao);
         task.repository = this;
         task.execute(code);
         return codeCount;
     }
 
-    public void createNew(MemoVo memo, MemoListVo memolist) {
+    synchronized public void createNew(MemoVo memo, MemoListVo memolist) {
         CreateNewNoteAsyncTask task = new CreateNewNoteAsyncTask(memoDao, memoListDao, memo, memolist);
         task.execute();
     }
 
-    public void deleteNote(String memoCode) {
+    synchronized public void deleteNote(String memoCode) {
         DeleteNoteAsyncTask task = new DeleteNoteAsyncTask(memoDao, memoListDao);
         task.execute(memoCode);
     }
 
-    public void loadNoteList() {
+    synchronized public void loadNoteList() {
         LoadNoteListAsyncTask task = new LoadNoteListAsyncTask(memoListDao);
         task.execute();
     }
 
-    public void updateNote(String memoCode, String title, Date date, int flg) {
+    synchronized public void updateNote(String memoCode, String title, Date date, int flg) {
         UpdateNoteAsyncTask task = new UpdateNoteAsyncTask(memoListDao, title, date, flg);
         task.execute(memoCode);
     }
-
 
     //----------------------------------------------------------------------------------------------
     //AsyncTask Classes
@@ -184,9 +182,11 @@ public class DBRepository {
         }
         @Override
         protected void onPostExecute(Void aVoid) {
-            Intent intent = new Intent(NewnoteActivity.mContext, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            NewnoteActivity.mContext.startActivity(intent);
+            ViewMemoAsyncTask task = new ViewMemoAsyncTask(memoListDao);
+            task.onPostExecute(this.memoListVo.getCode());
+//            Intent intent = new Intent(NewnoteActivity.mContext, MainActivity.class);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+//            NewnoteActivity.mContext.startActivity(intent);
             ((Activity)NewnoteActivity.mContext).finish();
         }
     }//end of InsertMemoAsyncTask

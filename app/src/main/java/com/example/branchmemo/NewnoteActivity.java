@@ -39,8 +39,6 @@ public class NewnoteActivity extends AppCompatActivity {
 
     }//end of onCreate
 
-
-
     public static void insertData(EditText notename, EditText titleTxt,EditText contentTxt, Context context) {
         String code, title, content;
         Date date = new Date(System.currentTimeMillis());
