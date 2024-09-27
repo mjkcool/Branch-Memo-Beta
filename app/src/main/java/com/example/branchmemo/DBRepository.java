@@ -184,9 +184,6 @@ public class DBRepository {
         protected void onPostExecute(Void aVoid) {
             ViewMemoAsyncTask task = new ViewMemoAsyncTask(memoListDao);
             task.onPostExecute(this.memoListVo.getCode());
-//            Intent intent = new Intent(NewnoteActivity.mContext, MainActivity.class);
-//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-//            NewnoteActivity.mContext.startActivity(intent);
             ((Activity)NewnoteActivity.mContext).finish();
         }
     }//end of InsertMemoAsyncTask
